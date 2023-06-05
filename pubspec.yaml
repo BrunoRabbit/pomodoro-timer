@@ -1,0 +1,42 @@
+name: pomodoro_timer
+description: A new Flutter project.
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.19.4 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  auto_route: ^7.2.0
+  cupertino_icons: ^1.0.2
+  provider: ^6.0.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+  build_runner: ^2.3.3
+  auto_route_generator: ^7.1.1
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/fonts/
+
+  fonts:
+      - family: Raleway
+        fonts:
+          - asset: assets/fonts/Raleway-Medium.ttf
+            weight: 500
+          - asset: assets/fonts/Raleway-SemiBold.ttf
+            weight: 600
+          - asset: assets/fonts/Raleway-ExtraBold.ttf
+            weight: 800
+          - asset: assets/fonts/Raleway-Black.ttf
+            weight: 900
