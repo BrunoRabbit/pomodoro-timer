@@ -8,11 +8,13 @@ class CustomButton extends StatelessWidget {
     required this.onPressed,
     required this.title,
     required this.isWorking,
+    this.shape,
   }) : super(key: key);
 
   final VoidCallback onPressed;
   final String title;
   final bool isWorking;
+  final OutlinedBorder? shape;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class CustomButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
         backgroundColor: Colors.white,
-        shape: const StadiumBorder(),
+        shape: shape ?? const StadiumBorder(),
       ),
       onPressed: onPressed,
       child: Text(
