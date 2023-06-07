@@ -106,13 +106,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: SizedBox(
                         height: size,
                         width: size,
+                        // TODO - VALUE ANIMATED
                         child: CircularProgressIndicator(
                           color: Colors.white, // AppColors.kProgressColor
                           value: controller.remainingTime == 0
                               ? 1.0
-                              : 1 - (controller.remainingTime / 6),
-                          // value: remainingTime >= 6 ? 1.0 : 1 - (remainingTime / 5),
-                          // value: 1 - ((remainingTime * 100) / 10) / 100,
+                              : 1 -
+                                  (controller.remainingTime /
+                                      (controller.isWorking
+                                          ? controller.durationWork.toDouble()
+                                          : controller.durationRest
+                                              .toDouble())),
                           strokeWidth: 8,
                         ),
                       ),

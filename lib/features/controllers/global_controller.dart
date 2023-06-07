@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 class GlobalController extends ChangeNotifier {
   // ? Settings
   int cycles = 1;
-  int durationRest = 5;
-  int durationWork = 10;
+  int durationRest = 5 * 60;
+  int durationWork = 25 * 60;
 
   // ? Timer
-  int remainingTime = 10;
+  int remainingTime = 25 * 60;
   bool isTimerActive = false;
   Timer? timer;
-  bool isWorking = false;
+  bool isWorking = true;
 
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -23,12 +23,13 @@ class GlobalController extends ChangeNotifier {
         isWorking = !isWorking;
         if (isWorking) {
           remainingTime = durationWork;
-          durationWork = remainingTime;
-          // remainingTime = workTime * 60;
+          // remainingTime = durationWork * 60;
+          // durationWork = remainingTime;
         } else {
           remainingTime = durationRest;
-          durationRest = remainingTime;
-          // remainingTime = breakTime * 60;
+          // remainingTime = durationRest * 60;
+          // remainingTime = durationRest;
+          // durationRest = remainingTime;
         }
       }
       notifyListeners();
@@ -42,25 +43,31 @@ class GlobalController extends ChangeNotifier {
   }
 
   void resetTimer() {
-    timer!.cancel();
+    if (timer != null) {
+      timer!.cancel();
+    }
+    durationWork = 25 * 60;
+    remainingTime = 25 * 60;
+    durationRest = 5 * 60;
     isWorking = true;
     // remainingTime = workTime * 60;
-    remainingTime = 10;
+    // remainingTime = durationWork ~/ 10;
+    // durationWork = remainingTime;
     isTimerActive = false;
     notifyListeners();
   }
 
-  void changeWorkMinutes(String text){
+  void changeWorkMinutes(String text) {
     resetTimer();
     remainingTime = int.parse(text);
-    durationWork = remainingTime;
+    durationWork = remainingTime * 60;
     notifyListeners();
   }
 
-  void changeRestMinutes(String text){
+  void changeRestMinutes(String text) {
     resetTimer();
     remainingTime = int.parse(text);
-    durationRest = remainingTime;
+    durationRest = remainingTime * 60;
     notifyListeners();
   }
 }
