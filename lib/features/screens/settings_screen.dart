@@ -38,7 +38,6 @@ class SettingsScreen extends StatelessWidget {
         children: const [
           SettingsSection(
             title: 'TIMERS',
-            count: 3,
           ),
           SizedBox(
             height: 20,
