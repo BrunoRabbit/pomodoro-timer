@@ -16,12 +16,12 @@ class SettingsItemModel {
     return [
       SettingsItemModel(
         title: 'Pomodoro',
-        subTitle: control.durationWork.toString(),
+        subTitle: parseMin(control.durationWork.toDouble()),
         onPress: (text) => control.changeWorkMinutes(text.text),
       ),
       SettingsItemModel(
         title: 'Descanso',
-        subTitle: control.durationRest.toString(),
+        subTitle: parseMin(control.durationRest.toDouble()),
         onPress: (text) => control.changeRestMinutes(text.text),
       ),
       SettingsItemModel(
@@ -29,25 +29,17 @@ class SettingsItemModel {
         subTitle: '${control.cycles} ${plural(control.cycles)}',
         onPress: (_) {},
       ),
-      SettingsItemModel(
-        title: 'cccccc',
-        subTitle: 'dddddd',
-        onPress: (_) {},
-      ),
-      SettingsItemModel(
-        title: 'eeeee',
-        subTitle: 'fffff',
-        onPress: (_) {},
-      ),
-      SettingsItemModel(
-        title: 'ggggg',
-        subTitle: 'hhhhh',
-        onPress: (_) {},
-      ),
     ];
   }
 
   String plural(int count) {
     return count == 1 ? "ciclo" : "ciclos";
+  }
+
+  String parseMin(double min) {
+    if (min < 10) {
+      return (min / 10).toString();
+    }
+    return (min / 60).toString();
   }
 }
