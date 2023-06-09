@@ -23,13 +23,8 @@ class GlobalController extends ChangeNotifier {
         isWorking = !isWorking;
         if (isWorking) {
           remainingTime = durationWork;
-          // remainingTime = durationWork * 60;
-          // durationWork = remainingTime;
         } else {
           remainingTime = durationRest;
-          // remainingTime = durationRest * 60;
-          // remainingTime = durationRest;
-          // durationRest = remainingTime;
         }
       }
       notifyListeners();
@@ -50,24 +45,39 @@ class GlobalController extends ChangeNotifier {
     remainingTime = 25 * 60;
     durationRest = 5 * 60;
     isWorking = true;
-    // remainingTime = workTime * 60;
-    // remainingTime = durationWork ~/ 10;
-    // durationWork = remainingTime;
     isTimerActive = false;
     notifyListeners();
   }
 
   void changeWorkMinutes(String text) {
-    resetTimer();
-    remainingTime = int.parse(text);
-    durationWork = remainingTime * 60;
+    if (timer != null) {
+      timer!.cancel();
+      isTimerActive = false;
+    }
+
+    durationWork = int.parse(text);
+    durationWork  = durationWork * 60;
+
+    if(isWorking){
+      remainingTime = durationWork;
+    }
+    
     notifyListeners();
   }
 
   void changeRestMinutes(String text) {
-    resetTimer();
-    remainingTime = int.parse(text);
-    durationRest = remainingTime * 60;
+    if (timer != null) {
+      timer!.cancel();
+      isTimerActive = false;
+    }
+    
+    durationRest = int.parse(text);
+    durationRest = durationRest * 60;
+
+    if (!isWorking) {
+      remainingTime = durationRest;
+    }
+
     notifyListeners();
   }
 }
