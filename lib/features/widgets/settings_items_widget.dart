@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/core/themes/app_colors.dart';
 import 'package:pomodoro_timer/core/themes/font_sizes.dart';
 import 'package:pomodoro_timer/features/models/settings_item_model.dart';
-import 'package:pomodoro_timer/features/widgets/custom_button.dart';
+import 'package:pomodoro_timer/features/widgets/settings_bottom_sheet.dart';
 
 class SettingsItemWidget extends StatelessWidget {
-  const SettingsItemWidget({
+   SettingsItemWidget({
     super.key,
     required this.setts,
     required this.index,
@@ -13,6 +13,7 @@ class SettingsItemWidget extends StatelessWidget {
 
   final int index;
   final SettingsItemModel setts;
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -86,88 +87,10 @@ class SettingsItemWidget extends StatelessWidget {
       isScrollControlled: true,
       enableDrag: true,
       builder: (BuildContext context) {
-        return SingleChildScrollView(
-          child: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  AppColors.kScaffoldPrimary,
-                  AppColors.kScaffoldSecondary,
-                ],
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-              ),
-            ),
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                left: 16.0,
-                right: 16.0,
-                bottom: 2,
-                top: 12,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Digite o tempo em minutos',
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(.85),
-                      fontSize: FontSizes.medium,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: TextField(
-                      controller: controller,
-                      keyboardType: TextInputType.number,
-                      style: const TextStyle(color: Colors.white),
-                      cursorColor: Colors.white,
-                      decoration: InputDecoration(
-                        floatingLabelBehavior: FloatingLabelBehavior.never,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: const BorderSide(
-                            color: AppColors.kLinesColor,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: const BorderSide(
-                            color: AppColors.kLinesColor,
-                          ),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        
-                        filled: true,
-                        fillColor: AppColors.kCardBackground,
-                        labelText: 'Ex: 10',
-                        labelStyle: TextStyle(
-                          color: Colors.white.withOpacity(.55),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 16.0),
-                    child: CustomButton(
-                      onPressed: () => onPress(controller),
-                      title: 'Salvar',
-                      isWorking: true,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+        return SettingsBottomSheet(
+          onPress: onPress,
+          controller: controller,
+          formKey: formKey,
         );
       },
     );

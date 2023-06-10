@@ -114,9 +114,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               : 1 -
                                   (controller.remainingTime /
                                       (controller.isWorking
-                                          ? controller.durationWork.toDouble()
-                                          : controller.durationRest
-                                              .toDouble())),
+                                          ? controller.durationWork
+                                          : controller.durationRest)),
                           strokeWidth: 8,
                         ),
                       ),
@@ -124,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 Text(
-                  controller.remainingTime.toMinSec(),
+                  controller.remainingTime.toInt().toMinSec() ,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: FontSizes.xLarge * 2,
@@ -161,6 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
               controller.resetTimer();
             },
           ),
+          
           // Text(
           //   '${(remainingTime ~/ 60).toString().padLeft(2, '0')}:${(remainingTime % 60).toString().padLeft(2, '0')}',
           //   style: TextStyle(fontSize: 48),

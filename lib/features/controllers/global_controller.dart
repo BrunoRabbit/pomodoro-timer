@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 class GlobalController extends ChangeNotifier {
   // ? Settings
   int cycles = 1;
-  int durationRest = 5 * 60;
-  int durationWork = 25 * 60;
+  double durationRest = 5 * 60;
+  double durationWork = 25 * 60;
 
   // ? Timer
-  int remainingTime = 25 * 60;
+  double remainingTime = 25 * 60;
   bool isTimerActive = false;
   Timer? timer;
   bool isWorking = true;
 
-  void startTimer() {
+  void startTimer() { 
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       remainingTime--;
       isTimerActive = true;
@@ -55,7 +55,7 @@ class GlobalController extends ChangeNotifier {
       isTimerActive = false;
     }
 
-    durationWork = int.parse(text);
+    durationWork = double.parse(text);
     durationWork  = durationWork * 60;
 
     if(isWorking){
@@ -71,7 +71,7 @@ class GlobalController extends ChangeNotifier {
       isTimerActive = false;
     }
     
-    durationRest = int.parse(text);
+    durationRest = double.parse(text);
     durationRest = durationRest * 60;
 
     if (!isWorking) {
