@@ -1,9 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:pomodoro_timer/core/themes/app_colors.dart';
-import 'package:pomodoro_timer/core/themes/font_sizes.dart';
 import 'package:pomodoro_timer/features/widgets/gradient_scaffold.dart';
 import 'package:flutter/material.dart';
-import 'package:pomodoro_timer/features/widgets/settings_items_widget.dart';
 import 'package:pomodoro_timer/features/widgets/settings_section.dart';
 
 @RoutePage()
