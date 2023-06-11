@@ -20,11 +20,7 @@ class SettingsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     GlobalController controller = Provider.of<GlobalController>(context);
-    List<SettingsItemModel> settingsList = SettingsItemModel(
-      onPress: (_) {},
-      title: '',
-      subTitle: '',
-    ).populateItemModel(controller);
+    List<SettingsItemModel> settingsList = controller.populateItemModel();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,18 +32,12 @@ class SettingsSection extends StatelessWidget {
             bottom: 6,
             top: 12,
           ),
-          child: Row(
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                  color: Colors.white.withOpacity(.85),
-                  fontSize: FontSizes.medium,
-                ),
-              ),
-              const Icon(Icons
-                  .info), // TODO INFO ICON -> WHY POMODORO CANT BE GREATER THAN 1 HOUR
-            ],
+          child: Text(
+            title,
+            style: TextStyle(
+              color: Colors.white.withOpacity(.85),
+              fontSize: FontSizes.medium,
+            ),
           ),
         ),
 
