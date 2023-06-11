@@ -123,12 +123,40 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 Text(
-                  controller.remainingTime.toInt().toMinSec() ,
+                  controller.remainingTime.toInt().toMinSec(),
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: FontSizes.xLarge * 2,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 1.4,
+                  ),
+                ),
+                Positioned(
+                  bottom: 40,
+                  child: Column(
+                    children: [
+                      const Text(
+                        "Cycles",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: FontSizes.medium,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1.4,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        "${controller.cycles}",
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: FontSizes.medium,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1.4,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -160,7 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
               controller.resetTimer();
             },
           ),
-          
+
           // Text(
           //   '${(remainingTime ~/ 60).toString().padLeft(2, '0')}:${(remainingTime % 60).toString().padLeft(2, '0')}',
           //   style: TextStyle(fontSize: 48),
