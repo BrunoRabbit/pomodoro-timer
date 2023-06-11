@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:pomodoro_timer/features/models/settings_item_model.dart';
 
 class GlobalController extends ChangeNotifier {
   // ? Settings
   int cycles = 1;
+  int userCycle = 2;
   double durationRest = 5 * 60;
   double durationWork = 25 * 60;
 
@@ -14,18 +16,27 @@ class GlobalController extends ChangeNotifier {
   Timer? timer;
   bool isWorking = true;
 
-  void startTimer() { 
+  double timerCycle() {
+    if (isWorking) {
+      cycles++;
+      return durationWork;
+    }
+
+    return durationRest;
+  }
+
+  void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       remainingTime--;
       isTimerActive = true;
 
       if (remainingTime < 0) {
         isWorking = !isWorking;
-        if (isWorking) {
-          remainingTime = durationWork;
-        } else {
-          remainingTime = durationRest;
-        }
+        remainingTime = timerCycle();
+      }
+
+      if (cycles + 1 > userCycle) {
+        resetTimer();
       }
       notifyListeners();
     });
@@ -49,35 +60,66 @@ class GlobalController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void changeWorkMinutes(String text) {
+  // ? Settings
+
+  List<SettingsItemModel> populateItemModel() {
+    return [
+      SettingsItemModel(
+        title: 'Pomodoro',
+        subTitle: parseMin(durationWork),
+        onPress: (text) => changeWorkMinutes(text.text, isWorking),
+      ),
+      SettingsItemModel(
+        title: 'Descanso',
+        subTitle: parseMin(durationRest),
+        onPress: (text) => changeWorkMinutes(text.text, !isWorking),
+      ),
+      SettingsItemModel(
+        title: 'Ciclos trabalho/descanso',
+        subTitle: '$cycles ${plural(cycles)}',
+        onPress: (text) {},
+        // onPress: (text) => control.changeRestMinutes(text.text),
+      ),
+    ];
+  }
+
+  void changeWorkMinutes(String text, bool isUserWorking) {
     if (timer != null) {
       timer!.cancel();
       isTimerActive = false;
     }
 
-    durationWork = double.parse(text);
-    durationWork  = durationWork * 60;
+    double duration = double.parse(text);
+    duration *= 60;
 
-    if(isWorking){
-      remainingTime = durationWork;
+    if (isUserWorking) {
+      durationWork = duration;
+      remainingTime = userDuration();
+    } else {
+      durationRest = duration;
+      remainingTime = userDuration();
     }
-    
+
     notifyListeners();
   }
 
-  void changeRestMinutes(String text) {
-    if (timer != null) {
-      timer!.cancel();
-      isTimerActive = false;
-    }
-    
-    durationRest = double.parse(text);
-    durationRest = durationRest * 60;
-
+  double userDuration() {
     if (!isWorking) {
-      remainingTime = durationRest;
+      return remainingTime = durationRest;
     }
 
-    notifyListeners();
+    return remainingTime = durationWork;
+  }
+
+  // ? helpers
+  String plural(int count) {
+    return count == 1 ? "ciclo" : "ciclos";
+  }
+
+  String parseMin(double min) {
+    if (min < 10) {
+      return (min / 10).toString();
+    }
+    return (min / 60).toString();
   }
 }
