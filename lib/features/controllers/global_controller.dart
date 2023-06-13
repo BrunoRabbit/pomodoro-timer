@@ -5,41 +5,59 @@ import 'package:pomodoro_timer/features/models/settings_item_model.dart';
 
 class GlobalController extends ChangeNotifier {
   // ? Settings
-  int cycles = 1;
-  int userCycle = 2;
-  double durationRest = 5 * 60;
-  double durationWork = 25 * 60;
+  int timerCycle = 0;
+  int userCycleLimit = 0;
+  double durationRest = 0.1 * 60; // 5
+  double durationWork = 0.1 * 60; // 25
 
   // ? Timer
-  double remainingTime = 25 * 60;
+  double remainingTime = 0.1 * 60; // 25
   bool isTimerActive = false;
   Timer? timer;
   bool isWorking = true;
 
-  double timerCycle() {
+  double switchWorkRestTiming() {
     if (isWorking) {
-      cycles++;
+      timerCycle++;
       return durationWork;
     }
 
     return durationRest;
   }
 
-  void startTimer() {
+  void startTimer(BuildContext context) {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       remainingTime--;
       isTimerActive = true;
 
       if (remainingTime < 0) {
         isWorking = !isWorking;
-        remainingTime = timerCycle();
+        remainingTime = switchWorkRestTiming();
       }
 
-      if (cycles + 1 > userCycle) {
-        resetTimer();
-      }
+      finishPomodoroUsingCycle(timer, context);
+
       notifyListeners();
     });
+  }
+
+  void finishPomodoroUsingCycle(Timer timer, BuildContext context) {
+    if (userCycleLimit > 0 && timerCycle >= userCycleLimit) {
+      timer.cancel();
+      isTimerActive = false;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Reinicie ou aumente o tamanho de ciclos!',
+            style: TextStyle(
+              fontFamily: 'Raleway',
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      );
+    }
   }
 
   void pauseTimer() {
@@ -57,6 +75,7 @@ class GlobalController extends ChangeNotifier {
     durationRest = 5 * 60;
     isWorking = true;
     isTimerActive = false;
+    timerCycle = 0;
     notifyListeners();
   }
 
@@ -76,11 +95,22 @@ class GlobalController extends ChangeNotifier {
       ),
       SettingsItemModel(
         title: 'Ciclos trabalho/descanso',
-        subTitle: '$cycles ${plural(cycles)}',
-        onPress: (text) {},
-        // onPress: (text) => control.changeRestMinutes(text.text),
+        subTitle: '$userCycleLimit ${plural(userCycleLimit)}',
+        onPress: (text) => changePomodoroCycle(text.text),
       ),
     ];
+  }
+
+  void changePomodoroCycle(String text) {
+    if (timer != null) {
+      timer!.cancel();
+      isTimerActive = false;
+    }
+
+    int cycle = int.parse(text);
+
+    userCycleLimit = cycle;
+    notifyListeners();
   }
 
   void changeWorkMinutes(String text, bool isUserWorking) {

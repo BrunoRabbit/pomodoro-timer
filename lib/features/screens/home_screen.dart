@@ -136,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     children: [
                       const Text(
-                        "Cycles",
+                        "Ciclos",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: FontSizes.medium,
@@ -148,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 8,
                       ),
                       Text(
-                        "${controller.cycles}",
+                        "${controller.timerCycle}",
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: FontSizes.medium,
@@ -171,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 : 'PAUSAR POMODORO',
             onPressed: () {
               if (!controller.isTimerActive) {
-                controller.startTimer();
+                controller.startTimer(context);
               } else {
                 controller.pauseTimer();
               }
