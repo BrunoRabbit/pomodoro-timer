@@ -1,9 +1,15 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:pomodoro_timer/features/models/settings_item_model.dart';
+import 'package:pomodoro_timer/features/providers/observer.dart';
 
-class GlobalController extends ChangeNotifier {
+class GlobalController extends ChangeNotifier implements Observer {
+  late Observable observable;
+
+  GlobalController() {
+    observable = Observable();
+    observable.addObserver(this);
+  }
+
   // ? Settings
   int timerCycle = 0;
   int userCycleLimit = 0;
@@ -16,7 +22,7 @@ class GlobalController extends ChangeNotifier {
   Timer? timer;
   bool isWorking = true;
 
-  double switchWorkRestTiming() {
+  double _switchWorkRestTiming() {
     if (isWorking) {
       timerCycle++;
       return durationWork;
@@ -32,19 +38,20 @@ class GlobalController extends ChangeNotifier {
 
       if (remainingTime < 0) {
         isWorking = !isWorking;
-        remainingTime = switchWorkRestTiming();
+        remainingTime = _switchWorkRestTiming();
       }
 
-      finishPomodoroUsingCycle(timer, context);
+      _finishPomodoroUsingCycle(timer, context);
 
-      notifyListeners();
+      observable.notifyObservers();
     });
   }
 
-  void finishPomodoroUsingCycle(Timer timer, BuildContext context) {
+  void _finishPomodoroUsingCycle(Timer timer, BuildContext context) {
     if (userCycleLimit > 0 && timerCycle >= userCycleLimit) {
       timer.cancel();
       isTimerActive = false;
+      // TODO - QND O CICLO ACABA E APERTA O BOTAO, O CICLO COMEÇA DE NOVO MAS ADICIONA UM VALOR SÓ
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -63,7 +70,7 @@ class GlobalController extends ChangeNotifier {
   void pauseTimer() {
     isTimerActive = false;
     timer!.cancel();
-    notifyListeners();
+    observable.notifyObservers();
   }
 
   void resetTimer() {
@@ -76,80 +83,11 @@ class GlobalController extends ChangeNotifier {
     isWorking = true;
     isTimerActive = false;
     timerCycle = 0;
+    observable.notifyObservers();
+  }
+
+  @override
+  void update() {
     notifyListeners();
-  }
-
-  // ? Settings
-
-  List<SettingsItemModel> populateItemModel() {
-    return [
-      SettingsItemModel(
-        title: 'Pomodoro',
-        subTitle: parseMin(durationWork),
-        onPress: (text) => changeWorkMinutes(text.text, isWorking),
-      ),
-      SettingsItemModel(
-        title: 'Descanso',
-        subTitle: parseMin(durationRest),
-        onPress: (text) => changeWorkMinutes(text.text, !isWorking),
-      ),
-      SettingsItemModel(
-        title: 'Ciclos trabalho/descanso',
-        subTitle: '$userCycleLimit ${plural(userCycleLimit)}',
-        onPress: (text) => changePomodoroCycle(text.text),
-      ),
-    ];
-  }
-
-  void changePomodoroCycle(String text) {
-    if (timer != null) {
-      timer!.cancel();
-      isTimerActive = false;
-    }
-
-    int cycle = int.parse(text);
-
-    userCycleLimit = cycle;
-    notifyListeners();
-  }
-
-  void changeWorkMinutes(String text, bool isUserWorking) {
-    if (timer != null) {
-      timer!.cancel();
-      isTimerActive = false;
-    }
-
-    double duration = double.parse(text);
-    duration *= 60;
-
-    if (isUserWorking) {
-      durationWork = duration;
-      remainingTime = userDuration();
-    } else {
-      durationRest = duration;
-      remainingTime = userDuration();
-    }
-
-    notifyListeners();
-  }
-
-  double userDuration() {
-    if (!isWorking) {
-      return remainingTime = durationRest;
-    }
-
-    return remainingTime = durationWork;
-  }
-
-  // ? helpers
-  String plural(int count) {
-    return count == 1 ? "ciclo" : "ciclos";
-  }
-
-  String parseMin(double min) {
-    if (min < 10) {
-      return (min / 10).toString();
-    }
-    return (min / 60).toString();
   }
 }

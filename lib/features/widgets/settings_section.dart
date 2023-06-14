@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/core/themes/app_colors.dart';
 import 'package:pomodoro_timer/core/themes/font_sizes.dart';
-import 'package:pomodoro_timer/features/controllers/global_controller.dart';
+import 'package:pomodoro_timer/features/controllers/settings_controller.dart';
 import 'package:pomodoro_timer/features/models/settings_item_model.dart';
 import 'package:pomodoro_timer/features/widgets/settings_items_widget.dart';
 import 'package:provider/provider.dart';
@@ -19,8 +19,9 @@ class SettingsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    GlobalController controller = Provider.of<GlobalController>(context);
-    List<SettingsItemModel> settingsList = controller.populateItemModel();
+    SettingsController settings = Provider.of<SettingsController>(context);
+
+    List<SettingsItemModel> settingsList = settings.populateItemModel();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +44,6 @@ class SettingsSection extends StatelessWidget {
 
         // ? section
         SettingsList(
-          controller: controller,
           items: settingsList,
         ),
       ],
@@ -54,12 +54,10 @@ class SettingsSection extends StatelessWidget {
 class SettingsList extends StatelessWidget {
   const SettingsList({
     super.key,
-    required this.controller,
     required this.items,
   });
 
   final List<SettingsItemModel> items;
-  final GlobalController controller;
 
   @override
   Widget build(BuildContext context) {
