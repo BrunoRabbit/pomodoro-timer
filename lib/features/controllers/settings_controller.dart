@@ -1,12 +1,11 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:pomodoro_timer/features/controllers/global_controller.dart';
+import 'package:pomodoro_timer/features/controllers/pomodoro_controller.dart';
 import 'package:pomodoro_timer/features/models/settings_item_model.dart';
 import 'package:pomodoro_timer/features/providers/observer.dart';
 
 class SettingsController extends ChangeNotifier implements Observer {
-  final GlobalController _controller;
+  final PomodoroController _controller;
 
   SettingsController(this._controller) {
     _controller.observable.addObserver(this);

@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/features/providers/observer.dart';
 
-class GlobalController extends ChangeNotifier implements Observer {
+class PomodoroController extends ChangeNotifier implements Observer {
   late Observable observable;
 
-  GlobalController() {
+  PomodoroController() {
     observable = Observable();
     observable.addObserver(this);
   }

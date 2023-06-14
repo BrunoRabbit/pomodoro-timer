@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/core/routes/routes.dart';
-import 'package:pomodoro_timer/features/controllers/global_controller.dart';
+import 'package:pomodoro_timer/features/controllers/pomodoro_controller.dart';
 import 'package:pomodoro_timer/features/controllers/settings_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -21,12 +21,12 @@ class _ApplicationState extends State<Application> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<GlobalController>(
-          create: (context) => GlobalController(),
+        ChangeNotifierProvider<PomodoroController>(
+          create: (context) => PomodoroController(),
         ),
         ChangeNotifierProvider<SettingsController>(
           create: (context) => SettingsController(
-            Provider.of<GlobalController>(context, listen: false),
+            Provider.of<PomodoroController>(context, listen: false),
           ),
         ),
       ],

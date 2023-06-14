@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:pomodoro_timer/core/themes/app_colors.dart';
 import 'package:pomodoro_timer/core/themes/font_sizes.dart';
-import 'package:pomodoro_timer/features/controllers/global_controller.dart';
+import 'package:pomodoro_timer/features/controllers/pomodoro_controller.dart';
 import 'package:pomodoro_timer/features/widgets/custom_button.dart';
 import 'package:pomodoro_timer/features/widgets/gradient_scaffold.dart';
 import 'package:pomodoro_timer/core/utils/extensions/hour_helper.dart';
@@ -19,13 +19,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late double size;
-  late GlobalController controller;
+  late PomodoroController controller;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     size = MediaQuery.of(context).size.height / 3;
-    controller = Provider.of<GlobalController>(context);
+    controller = Provider.of<PomodoroController>(context);
   }
 
   @override
