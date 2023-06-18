@@ -1,5 +1,5 @@
 name: pomodoro_timer
-description: A new Flutter project.
+description: Creating Pomodoro timer with many features.
 
 publish_to: "none"
 
@@ -14,6 +14,10 @@ dependencies:
   auto_route: ^7.2.0
   cupertino_icons: ^1.0.2
   provider: ^6.0.5
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.17.0
+  shared_preferences: ^2.1.2
 
 dev_dependencies:
   flutter_test:
@@ -28,6 +32,7 @@ flutter:
   
   assets:
     - assets/fonts/
+    - assets/languages/
 
   fonts:
       - family: Raleway

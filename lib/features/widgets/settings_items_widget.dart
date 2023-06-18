@@ -65,7 +65,7 @@ class SettingsItemWidget extends StatelessWidget {
           leading: Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Text(
-              setts.title, // TODO - IMPLEMENT CYCLE
+              setts.title,
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: FontSizes.large,
