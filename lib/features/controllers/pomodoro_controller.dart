@@ -1,13 +1,20 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:pomodoro_timer/core/debug/controllers/pomodoro_controller_debug.dart';
 import 'package:pomodoro_timer/features/providers/observer.dart';
 
-class PomodoroController extends ChangeNotifier implements Observer {
-  late Observable observable;
+class PomodoroController extends ChangeNotifier
+    with DiagnosticableTreeMixin
+    implements Observer {
+  final Observable observable = Observable();
 
   PomodoroController() {
-    observable = Observable();
     observable.addObserver(this);
+  }
+
+  PomodoroController.removeObserver() {
+    observable.removeObserver(this);
   }
 
   // ? Settings
@@ -51,7 +58,6 @@ class PomodoroController extends ChangeNotifier implements Observer {
     if (userCycleLimit > 0 && timerCycle >= userCycleLimit) {
       timer.cancel();
       isTimerActive = false;
-      // TODO - QND O CICLO ACABA E APERTA O BOTAO, O CICLO COMEÇA DE NOVO MAS ADICIONA UM VALOR SÓ
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -89,5 +95,13 @@ class PomodoroController extends ChangeNotifier implements Observer {
   @override
   void update() {
     notifyListeners();
+  }
+
+  // ! dev tools
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+
+    PomodoroControllerDebug().debug(properties);
   }
 }
