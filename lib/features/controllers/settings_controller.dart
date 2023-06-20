@@ -1,8 +1,10 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
+import 'package:pomodoro_timer/core/localization/multi_languages.dart';
 import 'package:pomodoro_timer/features/controllers/pomodoro_controller.dart';
+import 'package:pomodoro_timer/features/models/section_list_model.dart';
 import 'package:pomodoro_timer/features/models/settings_item_model.dart';
 import 'package:pomodoro_timer/features/providers/observer.dart';
+import 'package:flutter/material.dart';
 
 class SettingsController extends ChangeNotifier implements Observer {
   final PomodoroController _controller;
@@ -12,6 +14,8 @@ class SettingsController extends ChangeNotifier implements Observer {
   }
 
   final bool _isUserWorking = true;
+  int toggleValue = 0;
+  bool initialPosition = true;
 
   double get durationWork => _controller.durationWork;
   double get durationRest => _controller.durationRest;
@@ -28,24 +32,33 @@ class SettingsController extends ChangeNotifier implements Observer {
   set remainingTime(double time) => _controller.remainingTime = time;
 
   // ? Settings
-  List<SettingsItemModel> populateItemModel() {
-    return [
-      SettingsItemModel(
-        title: 'Pomodoro',
-        subTitle: _parseMin(durationWork),
-        onPress: (text) => _changeSettsMinutes(text.text, _isUserWorking),
-      ),
-      SettingsItemModel(
-        title: 'Descanso',
-        subTitle: _parseMin(durationRest),
-        onPress: (text) => _changeSettsMinutes(text.text, !_isUserWorking),
-      ),
-      SettingsItemModel(
-        title: 'Ciclos trabalho/descanso',
-        subTitle: '$userCycleLimit ${_plural(userCycleLimit)}',
-        onPress: (text) => _changePomodoroCycle(text.text),
-      ),
-    ];
+  Future<void> changeLocale(BuildContext context, bool mounted) async {
+    final multiLang = MultiLanguagesImpl();
+
+    final currentLocale = await multiLang.readLocalePrefs();
+    Locale newLocale = const Locale.fromSubtags(languageCode: 'pt');
+    
+    if (currentLocale == "pt") {
+      newLocale = const Locale("en", "EN");
+    } 
+
+    if (mounted) {
+      multiLang.setLocale(context, newLocale);
+    }
+
+    observable.notifyObservers();
+  }
+
+  void moveButton() {
+    initialPosition = !initialPosition;
+    int index = 0;
+
+    if (!initialPosition) {
+      index = 1;
+    }
+
+    toggleValue = index;
+    observable.notifyObservers();
   }
 
   void _changePomodoroCycle(String text) {
@@ -98,6 +111,58 @@ class SettingsController extends ChangeNotifier implements Observer {
       return (min / 10).toString();
     }
     return (min / 60).toString();
+  }
+
+  // ? Settings Sections
+  List<SectionListModel> settingsSections() {
+    return [
+      SectionListModel(
+        title: 'TIMERS',
+        items: [
+          SettingsItemModel(
+            title: 'Pomodoro',
+            subTitle: _parseMin(durationWork),
+            openModalBottomSheet: (text) => _changeSettsMinutes(
+              text.text,
+              _isUserWorking,
+            ),
+          ),
+          SettingsItemModel(
+            title: 'Descanso',
+            subTitle: _parseMin(durationRest),
+            openModalBottomSheet: (text) => _changeSettsMinutes(
+              text.text,
+              !_isUserWorking,
+            ),
+          ),
+          SettingsItemModel(
+            title: 'Ciclos trabalho/descanso',
+            subTitle: '$userCycleLimit ${_plural(userCycleLimit)}',
+            openModalBottomSheet: (text) => _changePomodoroCycle(text.text),
+          ),
+        ],
+      ),
+      SectionListModel(
+        title: 'USER SECTION',
+        items: [
+          SettingsItemModel(
+            title: 'aaa',
+            subTitle: '$userCycleLimit ${_plural(userCycleLimit)}',
+            openModalBottomSheet: (text) => _changePomodoroCycle(text.text),
+          ),
+          SettingsItemModel(
+            title: 'bbb',
+            subTitle: '$userCycleLimit ${_plural(userCycleLimit)}',
+            openModalBottomSheet: (text) => _changePomodoroCycle(text.text),
+          ),
+          SettingsItemModel(
+            title: 'Idioma',
+            subTitle: '',
+            openModalBottomSheet: (_) {},
+          ),
+        ],
+      ),
+    ];
   }
 
   @override

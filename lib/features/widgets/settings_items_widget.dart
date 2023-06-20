@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/core/themes/app_colors.dart';
 import 'package:pomodoro_timer/core/themes/font_sizes.dart';
 import 'package:pomodoro_timer/features/models/settings_item_model.dart';
+import 'package:pomodoro_timer/features/widgets/animated_toggle.dart';
 import 'package:pomodoro_timer/features/widgets/settings_bottom_sheet.dart';
 
-class SettingsItemWidget extends StatelessWidget {
-   SettingsItemWidget({
+class SettingsItemWidget extends StatefulWidget {
+  const SettingsItemWidget({
     super.key,
     required this.setts,
     required this.index,
@@ -13,15 +14,19 @@ class SettingsItemWidget extends StatelessWidget {
 
   final int index;
   final SettingsItemModel setts;
-  final formKey = GlobalKey<FormState>();
 
   @override
-  Widget build(BuildContext context) {
-    TextEditingController controller = TextEditingController();
+  State<SettingsItemWidget> createState() => _SettingsItemWidgetState();
+}
 
+class _SettingsItemWidgetState extends State<SettingsItemWidget> {
+  final formKey = GlobalKey<FormState>();
+  TextEditingController controller = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        _showModalBottomSheet(context, setts.onPress, controller);
+        // _showModalBottomSheet(context, widget.setts.onPress, controller);
       },
       child: Container(
         height: 50,
@@ -34,38 +39,45 @@ class SettingsItemWidget extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Row(
-                  children: [
-                    Text(
-                      index == 2
-                          ? '${setts.subTitle}'
-                          : '${setts.subTitle} min',
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(.6),
-                        fontSize: FontSizes.large,
+                widget.setts.subTitle!.isEmpty
+                    ? const AnimatedToggle(
+                        values: ['en-US', 'pt-BR'],
+                        buttonColor: AppColors.kScaffoldSecondary,
+                        backgroundColor: Colors.transparent,
+                        textColor: Color(0xFFFFFFFF),
+                      )
+                    : Row(
+                        children: [
+                          Text(
+                            widget.index == 2
+                                ? '${widget.setts.subTitle}'
+                                : '${widget.setts.subTitle} min',
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(.6),
+                              fontSize: FontSizes.large,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 2.0,
+                              left: 4,
+                              right: 4,
+                            ),
+                            child: Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              size: 18,
+                              color: Colors.white.withOpacity(.6),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 2.0,
-                        left: 4,
-                        right: 4,
-                      ),
-                      child: Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 18,
-                        color: Colors.white.withOpacity(.6),
-                      ),
-                    ),
-                  ],
-                ),
               ],
             ),
           ),
           leading: Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Text(
-              setts.title,
+              widget.setts.title,
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: FontSizes.large,
