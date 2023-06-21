@@ -20,7 +20,7 @@ class SettingsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     SettingsController settings = Provider.of<SettingsController>(context);
 
-    List<SectionListModel> sectionList = settings.settingsSections();
+    List<SectionListModel> sectionList = settings.settingsSections(context);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 15.0),

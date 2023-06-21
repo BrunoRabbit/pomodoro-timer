@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:pomodoro_timer/core/utils/extensions/translate_helper.dart';
 import 'package:pomodoro_timer/features/models/section_list_model.dart';
 import 'package:pomodoro_timer/features/widgets/gradient_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -14,16 +15,16 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     SettingsController settings = Provider.of<SettingsController>(context);
 
-    List<SectionListModel> sectionList = settings.settingsSections();
+    List<SectionListModel> sectionList = settings.settingsSections(context);
 
     return GradientScaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: const Text(
-          'Configurações',
-          style: TextStyle(
+        title: Text(
+          'settings_title'.pdfString(context),
+          style: const TextStyle(
             fontFamily: 'Raleway',
             fontWeight: FontWeight.w600,
           ),

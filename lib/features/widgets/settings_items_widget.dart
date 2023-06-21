@@ -22,11 +22,17 @@ class SettingsItemWidget extends StatefulWidget {
 class _SettingsItemWidgetState extends State<SettingsItemWidget> {
   final formKey = GlobalKey<FormState>();
   TextEditingController controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // _showModalBottomSheet(context, widget.setts.onPress, controller);
+        if (widget.index == 1 && widget.setts.subTitle == null) {
+          return;
+        }
+
+        _showModalBottomSheet(
+            context, widget.setts.openModalBottomSheet, controller);
       },
       child: Container(
         height: 50,
@@ -39,9 +45,8 @@ class _SettingsItemWidgetState extends State<SettingsItemWidget> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                widget.setts.subTitle!.isEmpty
+                widget.setts.subTitle == null
                     ? const AnimatedToggle(
-                        values: ['en-US', 'pt-BR'],
                         buttonColor: AppColors.kScaffoldSecondary,
                         backgroundColor: Colors.transparent,
                         textColor: Color(0xFFFFFFFF),
@@ -92,7 +97,7 @@ class _SettingsItemWidgetState extends State<SettingsItemWidget> {
   void _showModalBottomSheet(
     BuildContext context,
     Function(TextEditingController) onPress,
-    TextEditingController controller,
+    TextEditingController controller
   ) {
     showModalBottomSheet(
       context: context,

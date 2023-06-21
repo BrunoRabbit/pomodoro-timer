@@ -2,16 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/features/controllers/settings_controller.dart';
 import 'package:provider/provider.dart';
 
+enum Language {
+  ptBR,
+  enEN,
+}
+
+extension LanguageExtension on Language {
+  String get languageCode {
+    switch (this) {
+      case Language.ptBR:
+        return 'pt-BR';
+      case Language.enEN:
+        return 'en-EN';
+    }
+  }
+}
+
 class AnimatedToggle extends StatefulWidget {
   const AnimatedToggle({
     Key? key,
-    required this.values,
     this.backgroundColor = const Color(0xFFe7e7e8),
     this.buttonColor = const Color(0xFFFFFFFF),
     this.textColor = const Color(0xFF000000),
   }) : super(key: key);
 
-  final List<String> values;
   final Color backgroundColor;
   final Color buttonColor;
   final Color textColor;
@@ -21,9 +35,21 @@ class AnimatedToggle extends StatefulWidget {
 }
 
 class _AnimatedToggleState extends State<AnimatedToggle> {
+  late double size;
+  @override
+  void initState() {
+    super.initState();
+    context.read<SettingsController>().loadToggleValue();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    size = MediaQuery.of(context).size.width;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size.width;
     final controller = Provider.of<SettingsController>(context);
 
     return SizedBox(
@@ -32,9 +58,10 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
       child: Stack(
         children: <Widget>[
           GestureDetector(
-            onTap: () {
+            onTap: () async {
               controller.moveButton();
-              controller.changeLocale(context, mounted);
+
+              await controller.changeLocale(context, mounted);
             },
             child: Container(
               width: size * 0.45,
@@ -47,26 +74,27 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(
-                  widget.values.length,
-                  (index) => Padding(
+                children: List.generate(Language.values.length, (index) {
+                  final language = Language.values[index].languageCode;
+
+                  return Padding(
                     padding: EdgeInsets.symmetric(horizontal: size * 0.05),
                     child: Text(
-                      widget.values[index],
+                      language,
                       style: TextStyle(
                         color: Colors.white.withOpacity(.6),
                         fontSize: size * 0.045,
                       ),
                     ),
-                  ),
-                ),
+                  );
+                }),
               ),
             ),
           ),
           AnimatedAlign(
             duration: const Duration(milliseconds: 250),
             curve: Curves.decelerate,
-            alignment: controller.initialPosition
+            alignment: controller.toggleValue == 0
                 ? Alignment.centerLeft
                 : Alignment.centerRight,
             child: Container(
@@ -79,9 +107,9 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
               ),
               alignment: Alignment.center,
               child: Text(
-                controller.initialPosition
-                    ? widget.values[0]
-                    : widget.values[1],
+                controller.toggleValue == 0
+                    ? Language.values[0].languageCode
+                    : Language.values[1].languageCode,
                 style: TextStyle(
                   fontSize: size * 0.045,
                   color: widget.textColor,
