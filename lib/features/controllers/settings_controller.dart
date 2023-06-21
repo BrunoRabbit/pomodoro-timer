@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'package:pomodoro_timer/core/localization/multi_languages.dart';
+import 'package:pomodoro_timer/core/utils/extensions/translate_helper.dart';
 import 'package:pomodoro_timer/features/controllers/pomodoro_controller.dart';
 import 'package:pomodoro_timer/features/models/section_list_model.dart';
 import 'package:pomodoro_timer/features/models/settings_item_model.dart';
 import 'package:pomodoro_timer/features/providers/observer.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsController extends ChangeNotifier implements Observer {
   final PomodoroController _controller;
@@ -15,7 +17,6 @@ class SettingsController extends ChangeNotifier implements Observer {
 
   final bool _isUserWorking = true;
   int toggleValue = 0;
-  bool initialPosition = true;
 
   double get durationWork => _controller.durationWork;
   double get durationRest => _controller.durationRest;
@@ -37,27 +38,41 @@ class SettingsController extends ChangeNotifier implements Observer {
 
     final currentLocale = await multiLang.readLocalePrefs();
     Locale newLocale = const Locale.fromSubtags(languageCode: 'pt');
-    
+
     if (currentLocale == "pt") {
       newLocale = const Locale("en", "EN");
-    } 
+    }
 
     if (mounted) {
       multiLang.setLocale(context, newLocale);
     }
-
     observable.notifyObservers();
   }
 
-  void moveButton() {
-    initialPosition = !initialPosition;
-    int index = 0;
+  void moveButton() async {
+    final prefs = await SharedPreferences.getInstance();
+    final multiLang = MultiLanguagesImpl();
+    final currentLocale = await multiLang.readLocalePrefs();
 
-    if (!initialPosition) {
-      index = 1;
+    const String prefsKey = 'settingsButtonKey';
+
+    if (currentLocale == 'en') {
+      toggleValue = 0;
+    } else {
+      toggleValue = 1;
     }
 
-    toggleValue = index;
+    await prefs.setInt(prefsKey, toggleValue);
+    observable.notifyObservers();
+  }
+
+  void loadToggleValue() async {
+    final prefs = await SharedPreferences.getInstance();
+    const String prefsKey = 'settingsButtonKey';
+
+    toggleValue = prefs.getInt(prefsKey) ?? 0;
+
+    await prefs.setInt(prefsKey, toggleValue);
     observable.notifyObservers();
   }
 
@@ -114,7 +129,7 @@ class SettingsController extends ChangeNotifier implements Observer {
   }
 
   // ? Settings Sections
-  List<SectionListModel> settingsSections() {
+  List<SectionListModel> settingsSections(BuildContext context) {
     return [
       SectionListModel(
         title: 'TIMERS',
@@ -128,7 +143,7 @@ class SettingsController extends ChangeNotifier implements Observer {
             ),
           ),
           SettingsItemModel(
-            title: 'Descanso',
+            title: 'settings_item1'.pdfString(context),
             subTitle: _parseMin(durationRest),
             openModalBottomSheet: (text) => _changeSettsMinutes(
               text.text,
@@ -136,28 +151,23 @@ class SettingsController extends ChangeNotifier implements Observer {
             ),
           ),
           SettingsItemModel(
-            title: 'Ciclos trabalho/descanso',
+            title: 'settings_item2'.pdfString(context),
             subTitle: '$userCycleLimit ${_plural(userCycleLimit)}',
             openModalBottomSheet: (text) => _changePomodoroCycle(text.text),
           ),
         ],
       ),
       SectionListModel(
-        title: 'USER SECTION',
+        title: 'user_section_title'.pdfString(context),
         items: [
           SettingsItemModel(
-            title: 'aaa',
+            title: 'Notificações',
             subTitle: '$userCycleLimit ${_plural(userCycleLimit)}',
             openModalBottomSheet: (text) => _changePomodoroCycle(text.text),
           ),
           SettingsItemModel(
-            title: 'bbb',
-            subTitle: '$userCycleLimit ${_plural(userCycleLimit)}',
-            openModalBottomSheet: (text) => _changePomodoroCycle(text.text),
-          ),
-          SettingsItemModel(
-            title: 'Idioma',
-            subTitle: '',
+            title: 'settings_item3'.pdfString(context),
+            subTitle: null,
             openModalBottomSheet: (_) {},
           ),
         ],
