@@ -13,13 +13,6 @@ void application() {
   runApp(const Application());
 }
 
-class Application extends StatefulWidget {
-  const Application({super.key});
-
-  @override
-  State<Application> createState() => _ApplicationState();
-}
-
 class _ApplicationState extends State<Application> {
   final _appRouter = Routes();
 
@@ -66,4 +59,11 @@ class _ApplicationState extends State<Application> {
       ),
     );
   }
+}
+
+class Application extends StatefulWidget {
+  const Application({super.key});
+
+  @override
+  State<Application> createState() => _ApplicationState();
 }

@@ -28,7 +28,6 @@ class MultiLanguagesImpl with JsonFileManager implements MultiLanguages {
   Future<void> storeLocalePrefs(String localeKey) async {
     final prefs = await SharedPreferences.getInstance();
 
-    await prefs.remove(prefsKey);
     await prefs.setString(prefsKey, localeKey);
   }
 
@@ -43,7 +42,8 @@ class MultiLanguagesImpl with JsonFileManager implements MultiLanguages {
   void setLocale(BuildContext context, Locale locale) async {
     storeLocalePrefs(locale.languageCode);
 
-    Provider.of<LanguageController>(context, listen: false).setNewLocale(locale);
+    Provider.of<LanguageController>(context, listen: false)
+        .setNewLocale(locale);
   }
 
   static const LocalizationsDelegate<MultiLanguages> delegate =
