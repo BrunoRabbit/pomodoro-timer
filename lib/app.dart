@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:pomodoro_timer/core/routes/routes.dart';
 import 'package:pomodoro_timer/features/controllers/language_controller.dart';
+import 'package:pomodoro_timer/features/controllers/notifications_controller.dart';
 import 'package:pomodoro_timer/features/controllers/pomodoro_controller.dart';
 import 'package:pomodoro_timer/features/controllers/settings_controller.dart';
 import 'package:pomodoro_timer/core/localization/multi_languages.dart';
@@ -30,6 +31,9 @@ class _ApplicationState extends State<Application> {
         ),
         ChangeNotifierProvider<LanguageController>(
           create: (context) => LanguageController(),
+        ),
+        ChangeNotifierProvider<NotificationsController>(
+          create: (context) => NotificationsController(),
         ),
       ],
       child: Builder(

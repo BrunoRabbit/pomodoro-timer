@@ -1,0 +1,16 @@
+{
+    "working_title": "MANTENHA O FOCO" ,
+    "rest_title": "TENHA CALMA, DESCANSE",
+    "cycles": "Ciclos",
+    "start_timer": "INICIAR POMODORO",
+    "pause_timer": "PAUSAR POMODORO",
+    "restart_timer": "REINICIAR",
+    "settings_title": "Configurações",
+    "user_section_title": "SEÇÃO DO USUÁRIO",
+    "settings_item1": "Descanso",
+    "settings_item2": "Ciclos trabalho/descanso",
+    "settings_item3": "Permitir notificações",
+    "settings_item4": "Idioma",
+    "notifications_title": "Limite do ciclo atingido pelo timer.",
+    "notifications_description": "Por favor, adicione novos valores ao Pomodoro ou reinicie-o para continuar a contagem"
+}

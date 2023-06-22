@@ -1,0 +1,16 @@
+{
+    "working_title": "STAY FOCUSED",
+    "rest_title": "BE CALM, RELAX" ,
+    "cycles": "Cycles",
+    "start_timer": "START POMODORO",
+    "pause_timer": "PAUSE POMODORO",
+    "restart_timer": "RESTART",
+    "settings_title": "Settings",
+    "user_section_title": "USER SECTION",
+    "settings_item1": "Rest",
+    "settings_item2": "Work/rest cycles",
+    "settings_item3": "Allow notifications",
+    "settings_item4": "Language",
+    "notifications_title": "Cycle limit reached by timer.",
+    "notifications_description": "Please add new values ​​to Pomodoro or restart it to continue counting."
+}
