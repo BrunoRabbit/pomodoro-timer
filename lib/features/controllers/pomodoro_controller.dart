@@ -2,7 +2,9 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/core/debug/controllers/pomodoro_controller_debug.dart';
+import 'package:pomodoro_timer/features/controllers/notifications_controller.dart';
 import 'package:pomodoro_timer/features/providers/observer.dart';
+import 'package:provider/provider.dart';
 
 class PomodoroController extends ChangeNotifier
     with DiagnosticableTreeMixin
@@ -59,17 +61,15 @@ class PomodoroController extends ChangeNotifier
       timer.cancel();
       isTimerActive = false;
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Reinicie ou aumente o tamanho de ciclos!',
-            style: TextStyle(
-              fontFamily: 'Raleway',
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-      );
+      _isNotificationAvailable(context);
+    }
+  }
+
+  void _isNotificationAvailable(BuildContext context) {
+    final controller = context.read<NotificationsController>();
+
+    if (controller.isNotificationAllowed) {
+      controller.showNotification(context);
     }
   }
 
