@@ -161,12 +161,12 @@ class SettingsController extends ChangeNotifier implements Observer {
         title: 'user_section_title'.pdfString(context),
         items: [
           SettingsItemModel(
-            title: 'Notificações',
-            subTitle: '$userCycleLimit ${_plural(userCycleLimit)}',
-            openModalBottomSheet: (text) => _changePomodoroCycle(text.text),
+            title: 'settings_item3'.pdfString(context),
+            subTitle: null,
+            openModalBottomSheet: (_) {},
           ),
           SettingsItemModel(
-            title: 'settings_item3'.pdfString(context),
+            title: 'settings_item4'.pdfString(context),
             subTitle: null,
             openModalBottomSheet: (_) {},
           ),

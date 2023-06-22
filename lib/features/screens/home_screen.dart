@@ -3,6 +3,7 @@ import 'package:pomodoro_timer/core/themes/app_colors.dart';
 import 'package:pomodoro_timer/core/themes/font_sizes.dart';
 import 'package:pomodoro_timer/core/utils/extensions/translate_helper.dart';
 import 'package:pomodoro_timer/features/controllers/language_controller.dart';
+import 'package:pomodoro_timer/features/controllers/notifications_controller.dart';
 import 'package:pomodoro_timer/features/controllers/pomodoro_controller.dart';
 import 'package:pomodoro_timer/features/widgets/circular_component.dart';
 import 'package:pomodoro_timer/features/widgets/custom_button.dart';
@@ -26,6 +27,12 @@ class _HomeScreenState extends State<HomeScreen> {
   final multiLang = MultiLanguagesImpl();
 
   @override
+  void initState() {
+    super.initState();
+    context.read<NotificationsController>().initNotification();
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     size = MediaQuery.of(context).size.height / 3;
@@ -35,9 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
-    super.dispose();
     controller = PomodoroController.removeObserver();
     controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -123,11 +130,6 @@ class _HomeScreenState extends State<HomeScreen> {
               controller.resetTimer();
             },
           ),
-          // CustomButton(
-          //   isWorking: controller.isWorking,
-          //   title: 'CHANGE LOCALE',
-          //   onPressed: () => changeLocale(),
-          // ),
         ],
       ),
     );
