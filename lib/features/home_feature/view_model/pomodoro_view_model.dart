@@ -1,21 +1,21 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:pomodoro_timer/core/debug/controllers/pomodoro_controller_debug.dart';
-import 'package:pomodoro_timer/features/controllers/notifications_controller.dart';
+import 'package:pomodoro_timer/core/debug/controllers/pomodoro_view_model_debug.dart';
+import 'package:pomodoro_timer/features/notifications_feature/view_model/notifications_view_model.dart';
 import 'package:pomodoro_timer/features/providers/observer.dart';
 import 'package:provider/provider.dart';
 
-class PomodoroController extends ChangeNotifier
+class PomodoroViewModel extends ChangeNotifier
     with DiagnosticableTreeMixin
     implements Observer {
   final Observable observable = Observable();
 
-  PomodoroController() {
+  PomodoroViewModel() {
     observable.addObserver(this);
   }
 
-  PomodoroController.removeObserver() {
+  PomodoroViewModel.removeObserver() {
     observable.removeObserver(this);
   }
 
@@ -66,10 +66,10 @@ class PomodoroController extends ChangeNotifier
   }
 
   void _isNotificationAvailable(BuildContext context) {
-    final controller = context.read<NotificationsController>();
+    final viewModel = context.read<NotificationsViewModel>();
 
-    if (controller.isNotificationAllowed) {
-      controller.showNotification(context);
+    if (viewModel.isNotificationAllowed) {
+      viewModel.showNotification(context);
     }
   }
 
@@ -102,6 +102,6 @@ class PomodoroController extends ChangeNotifier
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
 
-    PomodoroControllerDebug().debug(properties);
+    PomodoroViewModelDebug().debug(properties);
   }
 }

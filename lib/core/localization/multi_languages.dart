@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/core/localization/json_file_manager.dart';
 import 'package:pomodoro_timer/core/localization/multi_languages_delegate.dart';
-import 'package:pomodoro_timer/features/controllers/language_controller.dart';
+import 'package:pomodoro_timer/features/language_feature/view_model/language_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -42,7 +42,7 @@ class MultiLanguagesImpl with JsonFileManager implements MultiLanguages {
   void setLocale(BuildContext context, Locale locale) async {
     storeLocalePrefs(locale.languageCode);
 
-    Provider.of<LanguageController>(context, listen: false)
+    Provider.of<LanguageViewModel>(context, listen: false)
         .setNewLocale(locale);
   }
 

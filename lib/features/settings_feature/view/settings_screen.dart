@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:pomodoro_timer/core/utils/extensions/translate_helper.dart';
-import 'package:pomodoro_timer/features/models/section_list_model.dart';
-import 'package:pomodoro_timer/features/widgets/gradient_scaffold.dart';
+import 'package:pomodoro_timer/features/settings_feature/model/section_list_model.dart';
+import 'package:pomodoro_timer/features/settings_feature/view/widgets/settings_section.dart';
+import 'package:pomodoro_timer/shared/widgets/gradient_scaffold.dart';
 import 'package:flutter/material.dart';
-import 'package:pomodoro_timer/features/widgets/settings_section.dart';
-import 'package:pomodoro_timer/features/controllers/settings_controller.dart';
+import 'package:pomodoro_timer/features/settings_feature/view_model/settings_view_model.dart';
 import 'package:provider/provider.dart';
 
 @RoutePage()
@@ -13,9 +13,9 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SettingsController settings = Provider.of<SettingsController>(context);
+    SettingsViewModel viewModel = Provider.of<SettingsViewModel>(context);
 
-    List<SectionListModel> sectionList = settings.settingsSections(context);
+    List<SectionListModel> sectionList = viewModel.settingsSections(context);
 
     return GradientScaffold(
       appBar: AppBar(

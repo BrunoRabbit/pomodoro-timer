@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:pomodoro_timer/features/controllers/pomodoro_controller.dart';
+import 'package:pomodoro_timer/features/home_feature/view_model/pomodoro_view_model.dart';
 
-class PomodoroControllerDebug extends PomodoroController {
+class PomodoroViewModelDebug extends PomodoroViewModel {
   // ! dev tools
   void debug(DiagnosticPropertiesBuilder properties) {
     properties.add(IntProperty('timerCycle', timerCycle));

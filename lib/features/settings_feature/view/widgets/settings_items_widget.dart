@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/core/themes/app_colors.dart';
 import 'package:pomodoro_timer/core/themes/font_sizes.dart';
-import 'package:pomodoro_timer/features/controllers/notifications_controller.dart';
-import 'package:pomodoro_timer/features/controllers/settings_controller.dart';
-import 'package:pomodoro_timer/features/models/settings_item_model.dart';
-import 'package:pomodoro_timer/features/widgets/animated_toggle.dart';
-import 'package:pomodoro_timer/features/widgets/settings_bottom_sheet.dart';
+import 'package:pomodoro_timer/features/notifications_feature/view_model/notifications_view_model.dart';
+import 'package:pomodoro_timer/features/settings_feature/model/settings_item_model.dart';
+import 'package:pomodoro_timer/features/settings_feature/view_model/settings_view_model.dart';
+import 'package:pomodoro_timer/features/settings_feature/view/widgets/animated_toggle.dart';
+import 'package:pomodoro_timer/features/settings_feature/view/widgets/settings_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
 enum Language {
@@ -35,21 +35,21 @@ class SettingsItemWidget extends StatefulWidget {
 class _SettingsItemWidgetState extends State<SettingsItemWidget> {
   final formKey = GlobalKey<FormState>();
   TextEditingController controller = TextEditingController();
-  late SettingsController settingsController;
-  late NotificationsController notificationsController;
+  late SettingsViewModel settingsViewModel;
+  late NotificationsViewModel notificationsViewModel;
 
   @override
   void initState() {
     super.initState();
-    context.read<SettingsController>().loadToggleValue();
-    context.read<NotificationsController>().getUserNotificationPrefs();
+    context.read<SettingsViewModel>().loadToggleValue();
+    context.read<NotificationsViewModel>().getUserNotificationPrefs();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    settingsController = Provider.of<SettingsController>(context);
-    notificationsController = Provider.of<NotificationsController>(context);
+    settingsViewModel = Provider.of<SettingsViewModel>(context);
+    notificationsViewModel = Provider.of<NotificationsViewModel>(context);
   }
 
   @override
@@ -78,23 +78,23 @@ class _SettingsItemWidgetState extends State<SettingsItemWidget> {
                 if (widget.setts.subTitle == null)
                   widget.index == 1
                       ? AnimatedToggle(
-                          toggleValue: settingsController.toggleValue == 0,
+                          toggleValue: settingsViewModel.toggleValue == 0,
                           listOptions: Language.values,
                           onTap: () async {
-                            settingsController.moveButton();
+                            settingsViewModel.moveButton();
 
-                            await settingsController.changeLocale(
+                            await settingsViewModel.changeLocale(
                                 context, mounted);
                           },
                         )
                       : AnimatedToggle(
                           listOptions: Notifications.values,
                           toggleValue:
-                              notificationsController.isNotificationAllowed,
+                              notificationsViewModel.isNotificationAllowed,
                           onTap: () {
-                            notificationsController.toggleNotifications();
+                           notificationsViewModel.toggleNotifications();
 
-                            notificationsController.saveUserNotificationPrefs();
+                            notificationsViewModel.saveUserNotificationPrefs();
                           },
                         )
                 else

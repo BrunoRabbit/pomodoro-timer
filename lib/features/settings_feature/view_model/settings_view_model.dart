@@ -1,36 +1,36 @@
 import 'dart:async';
 import 'package:pomodoro_timer/core/localization/multi_languages.dart';
 import 'package:pomodoro_timer/core/utils/extensions/translate_helper.dart';
-import 'package:pomodoro_timer/features/controllers/pomodoro_controller.dart';
-import 'package:pomodoro_timer/features/models/section_list_model.dart';
-import 'package:pomodoro_timer/features/models/settings_item_model.dart';
+import 'package:pomodoro_timer/features/home_feature/view_model/pomodoro_view_model.dart';
 import 'package:pomodoro_timer/features/providers/observer.dart';
 import 'package:flutter/material.dart';
+import 'package:pomodoro_timer/features/settings_feature/model/section_list_model.dart';
+import 'package:pomodoro_timer/features/settings_feature/model/settings_item_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SettingsController extends ChangeNotifier implements Observer {
-  final PomodoroController _controller;
+class SettingsViewModel extends ChangeNotifier implements Observer {
+  final PomodoroViewModel _viewModel;
 
-  SettingsController(this._controller) {
-    _controller.observable.addObserver(this);
+  SettingsViewModel(this._viewModel) {
+    _viewModel.observable.addObserver(this);
   }
 
   final bool _isUserWorking = true;
   int toggleValue = 0;
 
-  double get durationWork => _controller.durationWork;
-  double get durationRest => _controller.durationRest;
+  double get durationWork => _viewModel.durationWork;
+  double get durationRest => _viewModel.durationRest;
 
-  int get userCycleLimit => _controller.userCycleLimit;
-  bool get isWorking => _controller.isWorking;
-  Timer? get timer => _controller.timer;
-  Observable get observable => _controller.observable;
+  int get userCycleLimit => _viewModel.userCycleLimit;
+  bool get isWorking => _viewModel.isWorking;
+  Timer? get timer => _viewModel.timer;
+  Observable get observable => _viewModel.observable;
 
-  set isTimerActive(bool boolean) => _controller.isTimerActive = boolean;
-  set setUserCycleLimit(int cycle) => _controller.userCycleLimit = cycle;
-  set setDurationWork(double min) => _controller.durationWork = min;
-  set setDurationRest(double min) => _controller.durationRest = min;
-  set remainingTime(double time) => _controller.remainingTime = time;
+  set isTimerActive(bool boolean) => _viewModel.isTimerActive = boolean;
+  set setUserCycleLimit(int cycle) => _viewModel.userCycleLimit = cycle;
+  set setDurationWork(double min) => _viewModel.durationWork = min;
+  set setDurationRest(double min) => _viewModel.durationRest = min;
+  set remainingTime(double time) => _viewModel.remainingTime = time;
 
   // ? Settings
   Future<void> changeLocale(BuildContext context, bool mounted) async {

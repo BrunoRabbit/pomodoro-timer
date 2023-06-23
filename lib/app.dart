@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:pomodoro_timer/core/routes/routes.dart';
-import 'package:pomodoro_timer/features/controllers/language_controller.dart';
-import 'package:pomodoro_timer/features/controllers/notifications_controller.dart';
-import 'package:pomodoro_timer/features/controllers/pomodoro_controller.dart';
-import 'package:pomodoro_timer/features/controllers/settings_controller.dart';
+import 'package:pomodoro_timer/features/language_feature/view_model/language_view_model.dart';
+import 'package:pomodoro_timer/features/notifications_feature/view_model/notifications_view_model.dart';
+import 'package:pomodoro_timer/features/settings_feature/view_model/settings_view_model.dart';
 import 'package:pomodoro_timer/core/localization/multi_languages.dart';
+import 'package:pomodoro_timer/features/home_feature/view_model/pomodoro_view_model.dart';
 import 'package:provider/provider.dart';
 
 void application() {
@@ -21,25 +21,25 @@ class _ApplicationState extends State<Application> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<PomodoroController>(
-          create: (context) => PomodoroController(),
+        ChangeNotifierProvider<PomodoroViewModel>(
+          create: (context) => PomodoroViewModel(),
         ),
-        ChangeNotifierProvider<SettingsController>(
-          create: (context) => SettingsController(
-            Provider.of<PomodoroController>(context, listen: false),
+        ChangeNotifierProvider<SettingsViewModel>(
+          create: (context) => SettingsViewModel(
+            Provider.of<PomodoroViewModel>(context, listen: false),
           ),
         ),
-        ChangeNotifierProvider<LanguageController>(
-          create: (context) => LanguageController(),
+        ChangeNotifierProvider<LanguageViewModel>(
+          create: (context) => LanguageViewModel(),
         ),
-        ChangeNotifierProvider<NotificationsController>(
-          create: (context) => NotificationsController(),
+        ChangeNotifierProvider<NotificationsViewModel>(
+          create: (context) => NotificationsViewModel(),
         ),
       ],
       child: Builder(
         builder: (context) {
-          LanguageController langController =
-              Provider.of<LanguageController>(context);
+          LanguageViewModel languageViewModel =
+              Provider.of<LanguageViewModel>(context);
 
           return MaterialApp.router(
             routerConfig: _appRouter.config(),
@@ -54,9 +54,10 @@ class _ApplicationState extends State<Application> {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            locale: langController.locale,
+            locale: languageViewModel.locale,
             localeResolutionCallback: (locale, supported) {
-              return langController.localeResolutionCallback(locale, supported);
+              return languageViewModel.localeResolutionCallback(
+                  locale, supported);
             },
           );
         },

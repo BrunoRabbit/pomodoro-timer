@@ -2,12 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:pomodoro_timer/core/themes/app_colors.dart';
 import 'package:pomodoro_timer/core/themes/font_sizes.dart';
 import 'package:pomodoro_timer/core/utils/extensions/translate_helper.dart';
-import 'package:pomodoro_timer/features/controllers/language_controller.dart';
-import 'package:pomodoro_timer/features/controllers/notifications_controller.dart';
-import 'package:pomodoro_timer/features/controllers/pomodoro_controller.dart';
-import 'package:pomodoro_timer/features/widgets/circular_component.dart';
-import 'package:pomodoro_timer/features/widgets/custom_button.dart';
-import 'package:pomodoro_timer/features/widgets/gradient_scaffold.dart';
+import 'package:pomodoro_timer/features/language_feature/view_model/language_view_model.dart';
+import 'package:pomodoro_timer/features/notifications_feature/view_model/notifications_view_model.dart';
+import 'package:pomodoro_timer/features/home_feature/view_model/pomodoro_view_model.dart';
+import 'package:pomodoro_timer/features/home_feature/view/widgets/circular_component.dart';
+import 'package:pomodoro_timer/shared/widgets/custom_button.dart';
+import 'package:pomodoro_timer/shared/widgets/gradient_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/core/routes/routes.gr.dart';
 import 'package:pomodoro_timer/core/localization/multi_languages.dart';
@@ -23,35 +23,35 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late double size;
-  late PomodoroController controller;
+  late PomodoroViewModel viewModel;
   final multiLang = MultiLanguagesImpl();
 
   @override
   void initState() {
     super.initState();
-    context.read<NotificationsController>().initNotification();
+    context.read<NotificationsViewModel>().initNotification();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     size = MediaQuery.of(context).size.height / 3;
-    controller = Provider.of<PomodoroController>(context);
+    viewModel = Provider.of<PomodoroViewModel>(context);
     initLocale(context);
   }
 
   @override
   void dispose() {
-    controller = PomodoroController.removeObserver();
-    controller.dispose();
+    viewModel = PomodoroViewModel.removeObserver();
+    viewModel.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return GradientScaffold(
-      bgColor: !controller.isWorking ? AppColors.kScaffoldGreenSecondary : null,
-      gradient: !controller.isWorking
+      bgColor: !viewModel.isWorking ? AppColors.kScaffoldGreenSecondary : null,
+      gradient: !viewModel.isWorking
           ? const LinearGradient(
               colors: [
                 AppColors.kScaffoldGreenPrimary,
@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: Text(
-              controller.isWorking
+              viewModel.isWorking
                   ? 'working_title'.pdfString(context)
                   : 'rest_title'.pdfString(context),
               style: const TextStyle(
@@ -102,32 +102,32 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           CircularComponent(
             size: size,
-            controller: controller,
+            viewModel: viewModel,
           ),
           SizedBox(
             height: size / 6,
           ),
           CustomButton(
-            title: !controller.isTimerActive
+            title: !viewModel.isTimerActive
                 ? 'start_timer'.pdfString(context)
                 : 'pause_timer'.pdfString(context),
             onPressed: () {
-              if (!controller.isTimerActive) {
-                controller.startTimer(context);
+              if (!viewModel.isTimerActive) {
+                viewModel.startTimer(context);
               } else {
-                controller.pauseTimer();
+                viewModel.pauseTimer();
               }
             },
-            isWorking: controller.isWorking,
+            isWorking: viewModel.isWorking,
           ),
           SizedBox(
             height: size / 16,
           ),
           CustomButton(
-            isWorking: controller.isWorking,
+            isWorking: viewModel.isWorking,
             title: 'restart_timer'.pdfString(context),
             onPressed: () {
-              controller.resetTimer();
+              viewModel.resetTimer();
             },
           ),
         ],
@@ -136,11 +136,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> initLocale(BuildContext context) async {
-    LanguageController languageController =
-        Provider.of<LanguageController>(context, listen: false);
+    LanguageViewModel languageViewModel =
+        Provider.of<LanguageViewModel>(context, listen: false);
 
     final localeKey = await multiLang.readLocalePrefs();
 
-    languageController.getLocale(localeKey);
+    languageViewModel.getLocale(localeKey);
   }
 }

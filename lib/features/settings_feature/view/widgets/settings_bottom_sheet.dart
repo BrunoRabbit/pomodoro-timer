@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 
 import 'package:pomodoro_timer/core/themes/app_colors.dart';
 import 'package:pomodoro_timer/core/themes/font_sizes.dart';
-import 'package:pomodoro_timer/features/widgets/custom_button.dart';
+import 'package:pomodoro_timer/shared/widgets/custom_button.dart';
 
 class SettingsBottomSheet extends StatelessWidget {
   const SettingsBottomSheet({

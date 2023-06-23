@@ -1,12 +1,10 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:pomodoro_timer/features/settings_feature/model/section_list_model.dart';
+import 'package:pomodoro_timer/features/settings_feature/view/widgets/settings_items_widget.dart';
 import 'package:provider/provider.dart';
-
 import 'package:pomodoro_timer/core/themes/app_colors.dart';
 import 'package:pomodoro_timer/core/themes/font_sizes.dart';
-import 'package:pomodoro_timer/features/controllers/settings_controller.dart';
-import 'package:pomodoro_timer/features/models/section_list_model.dart';
-import 'package:pomodoro_timer/features/widgets/settings_items_widget.dart';
+import 'package:pomodoro_timer/features/settings_feature/view_model/settings_view_model.dart';
 
 class SettingsSection extends StatelessWidget {
   const SettingsSection({
@@ -18,7 +16,7 @@ class SettingsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SettingsController settings = Provider.of<SettingsController>(context);
+    SettingsViewModel settings = Provider.of<SettingsViewModel>(context);
 
     List<SectionListModel> sectionList = settings.settingsSections(context);
 

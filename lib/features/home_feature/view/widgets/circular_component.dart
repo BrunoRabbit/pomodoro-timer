@@ -1,20 +1,19 @@
-
 import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/core/themes/app_colors.dart';
 import 'package:pomodoro_timer/core/themes/font_sizes.dart';
 import 'package:pomodoro_timer/core/utils/extensions/hour_helper.dart';
 import 'package:pomodoro_timer/core/utils/extensions/translate_helper.dart';
-import 'package:pomodoro_timer/features/controllers/pomodoro_controller.dart';
+import 'package:pomodoro_timer/features/home_feature/view_model/pomodoro_view_model.dart';
 
 class CircularComponent extends StatelessWidget {
   const CircularComponent({
     super.key,
     required this.size,
-    required this.controller,
+    required this.viewModel,
   });
 
   final double size;
-  final PomodoroController controller;
+  final PomodoroViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +32,7 @@ class CircularComponent extends StatelessWidget {
                   child: CircularProgressIndicator(
                     value: 0,
                     strokeWidth: 4,
-                    backgroundColor: controller.isWorking
+                    backgroundColor: viewModel.isWorking
                         ? AppColors.kProgressMissing
                         : AppColors.kProgressMissingGreen,
                   ),
@@ -45,13 +44,13 @@ class CircularComponent extends StatelessWidget {
                   width: size,
                   child: CircularProgressIndicator(
                     color: Colors.white, // AppColors.kProgressColor
-                    value: controller.remainingTime == 0
+                    value: viewModel.remainingTime == 0
                         ? 1.0
                         : 1 -
-                            (controller.remainingTime /
-                                (controller.isWorking
-                                    ? controller.durationWork
-                                    : controller.durationRest)),
+                            (viewModel.remainingTime /
+                                (viewModel.isWorking
+                                    ? viewModel.durationWork
+                                    : viewModel.durationRest)),
                     strokeWidth: 8,
                   ),
                 ),
@@ -59,7 +58,7 @@ class CircularComponent extends StatelessWidget {
             ],
           ),
           Text(
-            controller.remainingTime.toInt().toMinSec(),
+            viewModel.remainingTime.toInt().toMinSec(),
             style: const TextStyle(
               color: Colors.white,
               fontSize: FontSizes.xLarge * 2,
@@ -84,7 +83,7 @@ class CircularComponent extends StatelessWidget {
                   height: 8,
                 ),
                 Text(
-                  "${controller.timerCycle}",
+                  "${viewModel.timerCycle}",
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: FontSizes.medium,

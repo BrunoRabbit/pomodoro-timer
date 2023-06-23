@@ -4,14 +4,14 @@ import 'package:pomodoro_timer/core/utils/extensions/translate_helper.dart';
 import 'package:pomodoro_timer/features/providers/observer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class NotificationsController extends ChangeNotifier implements Observer {
+class NotificationsViewModel extends ChangeNotifier implements Observer {
   final Observable observable = Observable();
 
-  NotificationsController() {
+  NotificationsViewModel() {
     observable.addObserver(this);
   }
 
-  NotificationsController.removeObserver() {
+  NotificationsViewModel.removeObserver() {
     observable.removeObserver(this);
   }
 

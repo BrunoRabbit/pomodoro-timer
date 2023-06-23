@@ -1,4 +1,4 @@
-import 'package:pomodoro_timer/features/models/settings_item_model.dart';
+import 'package:pomodoro_timer/features/settings_feature/model/settings_item_model.dart';
 
 class SectionListModel {
   SectionListModel({

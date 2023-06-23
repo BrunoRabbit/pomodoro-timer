@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/features/providers/observer.dart';
 
-// abstract class ILanguageController with ChangeNotifier {
-
-// }
-
-class LanguageController extends ChangeNotifier implements Observer {
-  LanguageController() {
+class LanguageViewModel extends ChangeNotifier implements Observer {
+  LanguageViewModel() {
     observable = Observable();
     observable.addObserver(this);
   }
