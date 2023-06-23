@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pomodoro_timer/features/providers/observer.dart';
+import 'package:pomodoro_timer/features/language_feature/providers/observer.dart';
 
 class LanguageViewModel extends ChangeNotifier implements Observer {
   LanguageViewModel() {

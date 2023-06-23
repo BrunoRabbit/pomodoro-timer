@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:pomodoro_timer/core/utils/extensions/translate_helper.dart';
-import 'package:pomodoro_timer/features/providers/observer.dart';
+import 'package:pomodoro_timer/features/language_feature/providers/observer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationsViewModel extends ChangeNotifier implements Observer {

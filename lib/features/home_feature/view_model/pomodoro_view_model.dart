@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/core/debug/controllers/pomodoro_view_model_debug.dart';
 import 'package:pomodoro_timer/features/notifications_feature/view_model/notifications_view_model.dart';
-import 'package:pomodoro_timer/features/providers/observer.dart';
+import 'package:pomodoro_timer/features/language_feature/providers/observer.dart';
 import 'package:provider/provider.dart';
 
 class PomodoroViewModel extends ChangeNotifier

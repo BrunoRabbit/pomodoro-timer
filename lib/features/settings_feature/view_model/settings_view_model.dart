@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:pomodoro_timer/core/localization/multi_languages.dart';
 import 'package:pomodoro_timer/core/utils/extensions/translate_helper.dart';
 import 'package:pomodoro_timer/features/home_feature/view_model/pomodoro_view_model.dart';
-import 'package:pomodoro_timer/features/providers/observer.dart';
+import 'package:pomodoro_timer/features/language_feature/providers/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/features/settings_feature/model/section_list_model.dart';
 import 'package:pomodoro_timer/features/settings_feature/model/settings_item_model.dart';
