@@ -14,9 +14,11 @@ class CircularComponent extends StatelessWidget {
 
   final double size;
   final PomodoroViewModel viewModel;
-
   @override
   Widget build(BuildContext context) {
+    final bool position =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     return Padding(
       padding: const EdgeInsets.only(top: 30.0),
       child: Stack(
@@ -27,8 +29,8 @@ class CircularComponent extends StatelessWidget {
             children: [
               Center(
                 child: SizedBox(
-                  height: size,
-                  width: size,
+                  height: _adjustPosition(position),
+                  width: _adjustPosition(position),
                   child: CircularProgressIndicator(
                     value: 0,
                     strokeWidth: 4,
@@ -40,8 +42,8 @@ class CircularComponent extends StatelessWidget {
               ),
               Center(
                 child: SizedBox(
-                  height: size,
-                  width: size,
+                  height: _adjustPosition(position),
+                  width: _adjustPosition(position),
                   child: CircularProgressIndicator(
                     color: Colors.white, // AppColors.kProgressColor
                     value: viewModel.remainingTime == 0
@@ -97,5 +99,9 @@ class CircularComponent extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  double _adjustPosition(position) {
+    return position ? size / 0.5 : size;
   }
 }

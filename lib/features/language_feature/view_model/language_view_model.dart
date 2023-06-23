@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pomodoro_timer/core/localization/multi_languages.dart';
 import 'package:pomodoro_timer/features/language_feature/providers/observer.dart';
 
 class LanguageViewModel extends ChangeNotifier implements Observer {
@@ -33,6 +34,13 @@ class LanguageViewModel extends ChangeNotifier implements Observer {
       }
     }
     return supported.first;
+  }
+
+  Future<void> initLocale() async {
+    final multiLang = MultiLanguagesImpl();
+    final localeKey = await multiLang.readLocalePrefs();
+
+    getLocale(localeKey);
   }
 
   @override

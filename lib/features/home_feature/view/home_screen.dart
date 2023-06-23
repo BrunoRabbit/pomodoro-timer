@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/rendering.dart';
 import 'package:pomodoro_timer/core/themes/app_colors.dart';
 import 'package:pomodoro_timer/core/themes/font_sizes.dart';
 import 'package:pomodoro_timer/core/utils/extensions/translate_helper.dart';
@@ -24,7 +25,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late double size;
   late PomodoroViewModel viewModel;
-  final multiLang = MultiLanguagesImpl();
 
   @override
   void initState() {
@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.didChangeDependencies();
     size = MediaQuery.of(context).size.height / 3;
     viewModel = Provider.of<PomodoroViewModel>(context);
-    initLocale(context);
+    context.read<LanguageViewModel>().initLocale();
   }
 
   @override
@@ -79,68 +79,119 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: <Widget>[
-          SizedBox(
-            height: size / 4,
-          ),
-
-          // ? Title
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: Text(
-              viewModel.isWorking
-                  ? 'working_title'.pdfString(context)
-                  : 'rest_title'.pdfString(context),
-              style: const TextStyle(
-                fontFamily: 'Raleway',
-                fontWeight: FontWeight.w600,
-                fontSize: FontSizes.large,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          CircularComponent(
-            size: size,
-            viewModel: viewModel,
-          ),
-          SizedBox(
-            height: size / 6,
-          ),
-          CustomButton(
-            title: !viewModel.isTimerActive
-                ? 'start_timer'.pdfString(context)
-                : 'pause_timer'.pdfString(context),
-            onPressed: () {
-              if (!viewModel.isTimerActive) {
-                viewModel.startTimer(context);
-              } else {
-                viewModel.pauseTimer();
-              }
-            },
-            isWorking: viewModel.isWorking,
-          ),
-          SizedBox(
-            height: size / 16,
-          ),
-          CustomButton(
-            isWorking: viewModel.isWorking,
-            title: 'restart_timer'.pdfString(context),
-            onPressed: () {
-              viewModel.resetTimer();
-            },
-          ),
-        ],
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          if (constraints.maxWidth > 600) {
+            return WideHomeScreen(size: size, viewModel: viewModel);
+          } else {
+            return NarrowHomeScreen(size: size, viewModel: viewModel);
+          }
+        },
       ),
     );
   }
+}
 
-  Future<void> initLocale(BuildContext context) async {
-    LanguageViewModel languageViewModel =
-        Provider.of<LanguageViewModel>(context, listen: false);
+class NarrowHomeScreen extends StatelessWidget {
+  const NarrowHomeScreen({
+    super.key,
+    required this.size,
+    required this.viewModel,
+  });
 
-    final localeKey = await multiLang.readLocalePrefs();
+  final double size;
+  final PomodoroViewModel viewModel;
 
-    languageViewModel.getLocale(localeKey);
+  @override
+  Widget build(BuildContext context) {
+    final bool position =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: position ? size / 6 : size / 4,
+        ),
+
+        // ? Title
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Text(
+            viewModel.isWorking
+                ? 'working_title'.pdfString(context)
+                : 'rest_title'.pdfString(context),
+            style: const TextStyle(
+              fontFamily: 'Raleway',
+              fontWeight: FontWeight.w600,
+              fontSize: FontSizes.large,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        CircularComponent(
+          size: size,
+          viewModel: viewModel,
+        ),
+        SizedBox(
+          height: size / 6,
+        ),
+        CustomButton(
+          title: !viewModel.isTimerActive
+              ? 'start_timer'.pdfString(context)
+              : 'pause_timer'.pdfString(context),
+          onPressed: () {
+            if (!viewModel.isTimerActive) {
+              viewModel.startTimer(context);
+            } else {
+              viewModel.pauseTimer();
+            }
+          },
+          isWorking: viewModel.isWorking,
+        ),
+        SizedBox(
+          height: size / 16,
+        ),
+        CustomButton(
+          isWorking: viewModel.isWorking,
+          title: 'restart_timer'.pdfString(context),
+          onPressed: () {
+            viewModel.resetTimer();
+          },
+        ),
+
+        position
+            ? SizedBox(
+                height: size / 6,
+              )
+            : Container(),
+      ],
+    );
+  }
+}
+
+class WideHomeScreen extends StatelessWidget {
+  const WideHomeScreen({
+    super.key,
+    required this.size,
+    required this.viewModel,
+  });
+
+  final double size;
+  final PomodoroViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
+            child: NarrowHomeScreen(
+              size: size,
+              viewModel: viewModel,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
