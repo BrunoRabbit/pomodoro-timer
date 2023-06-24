@@ -1,0 +1,4 @@
+enum Notifications {
+  yes,
+  no,
+}

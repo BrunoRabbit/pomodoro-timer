@@ -1,4 +1,4 @@
-import 'package:pomodoro_timer/features/settings_feature/view/widgets/settings_items_widget.dart';
+import 'package:pomodoro_timer/core/utils/enums/language.dart';
 
 extension LanguageHelper on Language {
   String get languageCode {
