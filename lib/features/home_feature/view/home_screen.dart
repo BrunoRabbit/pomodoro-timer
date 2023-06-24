@@ -104,67 +104,70 @@ class NarrowHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool position =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    return OrientationBuilder(
+      builder: (context, orientation) {
+        bool isLandscape = orientation == Orientation.landscape;
 
-    return Column(
-      children: <Widget>[
-        SizedBox(
-          height: position ? size / 6 : size / 4,
-        ),
-
-        // ? Title
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0),
-          child: Text(
-            viewModel.isWorking
-                ? 'working_title'.pdfString(context)
-                : 'rest_title'.pdfString(context),
-            style: const TextStyle(
-              fontFamily: 'Raleway',
-              fontWeight: FontWeight.w600,
-              fontSize: FontSizes.large,
-              color: Colors.white,
+        return Column(
+          children: <Widget>[
+            SizedBox(
+              height: isLandscape ? size / 6 : size / 4,
             ),
-          ),
-        ),
-        CircularComponent(
-          size: size,
-          viewModel: viewModel,
-        ),
-        SizedBox(
-          height: size / 6,
-        ),
-        CustomButton(
-          title: !viewModel.isTimerActive
-              ? 'start_timer'.pdfString(context)
-              : 'pause_timer'.pdfString(context),
-          onPressed: () {
-            if (!viewModel.isTimerActive) {
-              viewModel.startTimer(context);
-            } else {
-              viewModel.pauseTimer();
-            }
-          },
-          isWorking: viewModel.isWorking,
-        ),
-        SizedBox(
-          height: size / 16,
-        ),
-        CustomButton(
-          isWorking: viewModel.isWorking,
-          title: 'restart_timer'.pdfString(context),
-          onPressed: () {
-            viewModel.resetTimer();
-          },
-        ),
 
-        position
-            ? SizedBox(
-                height: size / 6,
-              )
-            : Container(),
-      ],
+            // ? Title
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: Text(
+                viewModel.isWorking
+                    ? 'working_title'.pdfString(context)
+                    : 'rest_title'.pdfString(context),
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  fontWeight: FontWeight.w600,
+                  fontSize: FontSizes.large,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            CircularComponent(
+              size: size,
+              viewModel: viewModel,
+            ),
+            SizedBox(
+              height: size / 6,
+            ),
+            CustomButton(
+              title: !viewModel.isTimerActive
+                  ? 'start_timer'.pdfString(context)
+                  : 'pause_timer'.pdfString(context),
+              onPressed: () {
+                if (!viewModel.isTimerActive) {
+                  viewModel.startTimer(context);
+                } else {
+                  viewModel.pauseTimer();
+                }
+              },
+              isWorking: viewModel.isWorking,
+            ),
+            SizedBox(
+              height: size / 16,
+            ),
+            CustomButton(
+              isWorking: viewModel.isWorking,
+              title: 'restart_timer'.pdfString(context),
+              onPressed: () {
+                viewModel.resetTimer();
+              },
+            ),
+
+            isLandscape
+                ? SizedBox(
+                    height: size / 6,
+                  )
+                : Container(),
+          ],
+        );
+      },
     );
   }
 }
