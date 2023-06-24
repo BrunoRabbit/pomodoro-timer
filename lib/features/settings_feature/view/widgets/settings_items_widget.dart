@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/core/themes/app_colors.dart';
 import 'package:pomodoro_timer/core/themes/font_sizes.dart';
+import 'package:pomodoro_timer/core/utils/enums/language.dart';
+import 'package:pomodoro_timer/core/utils/enums/notifications.dart';
 import 'package:pomodoro_timer/features/notifications_feature/view_model/notifications_view_model.dart';
 import 'package:pomodoro_timer/features/settings_feature/model/settings_item_model.dart';
 import 'package:pomodoro_timer/features/settings_feature/view_model/settings_view_model.dart';
 import 'package:pomodoro_timer/features/settings_feature/view/widgets/animated_toggle.dart';
 import 'package:pomodoro_timer/features/settings_feature/view/widgets/settings_bottom_sheet.dart';
 import 'package:provider/provider.dart';
-
-enum Language {
-  ptBR,
-  enEN,
-}
-
-enum Notifications {
-  yes,
-  no,
-}
 
 class SettingsItemWidget extends StatefulWidget {
   const SettingsItemWidget({
