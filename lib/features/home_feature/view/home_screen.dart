@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/rendering.dart';
 import 'package:pomodoro_timer/core/themes/app_colors.dart';
 import 'package:pomodoro_timer/core/themes/font_sizes.dart';
 import 'package:pomodoro_timer/core/utils/extensions/translate_helper.dart';
@@ -11,7 +10,6 @@ import 'package:pomodoro_timer/shared/widgets/custom_button.dart';
 import 'package:pomodoro_timer/shared/widgets/gradient_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/core/routes/routes.gr.dart';
-import 'package:pomodoro_timer/core/localization/multi_languages.dart';
 import 'package:provider/provider.dart';
 
 @RoutePage()
@@ -23,7 +21,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late double size;
   late PomodoroViewModel viewModel;
 
   @override
@@ -35,7 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    size = MediaQuery.of(context).size.height / 3;
     viewModel = Provider.of<PomodoroViewModel>(context);
     context.read<LanguageViewModel>().initLocale();
   }
@@ -82,9 +78,9 @@ class _HomeScreenState extends State<HomeScreen> {
       body: LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth > 600) {
-            return WideHomeScreen(size: size, viewModel: viewModel);
+            return WideHomeScreen(viewModel: viewModel);
           } else {
-            return NarrowHomeScreen(size: size, viewModel: viewModel);
+            return NarrowHomeScreen(viewModel: viewModel);
           }
         },
       ),
@@ -95,11 +91,9 @@ class _HomeScreenState extends State<HomeScreen> {
 class NarrowHomeScreen extends StatelessWidget {
   const NarrowHomeScreen({
     super.key,
-    required this.size,
     required this.viewModel,
   });
 
-  final double size;
   final PomodoroViewModel viewModel;
 
   @override
@@ -107,6 +101,7 @@ class NarrowHomeScreen extends StatelessWidget {
     return OrientationBuilder(
       builder: (context, orientation) {
         bool isLandscape = orientation == Orientation.landscape;
+        final size = MediaQuery.of(context).size.height / 3;
 
         return Column(
           children: <Widget>[
@@ -130,7 +125,6 @@ class NarrowHomeScreen extends StatelessWidget {
               ),
             ),
             CircularComponent(
-              size: size,
               viewModel: viewModel,
             ),
             SizedBox(
@@ -175,11 +169,9 @@ class NarrowHomeScreen extends StatelessWidget {
 class WideHomeScreen extends StatelessWidget {
   const WideHomeScreen({
     super.key,
-    required this.size,
     required this.viewModel,
   });
 
-  final double size;
   final PomodoroViewModel viewModel;
 
   @override
@@ -189,7 +181,6 @@ class WideHomeScreen extends StatelessWidget {
         Expanded(
           child: SingleChildScrollView(
             child: NarrowHomeScreen(
-              size: size,
               viewModel: viewModel,
             ),
           ),

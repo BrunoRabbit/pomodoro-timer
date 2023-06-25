@@ -1,0 +1,1 @@
+const kTabletWidth = 800;

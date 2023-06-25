@@ -3,21 +3,21 @@ import 'package:pomodoro_timer/core/themes/app_colors.dart';
 import 'package:pomodoro_timer/core/themes/font_sizes.dart';
 import 'package:pomodoro_timer/core/utils/extensions/hour_helper.dart';
 import 'package:pomodoro_timer/core/utils/extensions/translate_helper.dart';
-import 'package:pomodoro_timer/core/utils/responsive/dimensions.dart';
 import 'package:pomodoro_timer/features/home_feature/view_model/pomodoro_view_model.dart';
+import 'package:provider/provider.dart';
 
 class CircularComponent extends StatelessWidget {
   const CircularComponent({
     super.key,
-    required this.size,
     required this.viewModel,
   });
 
-  final double size;
   final PomodoroViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = Provider.of<PomodoroViewModel>(context);
+    final sizes = viewModel.adjustPosition(context);
     return Padding(
       padding: const EdgeInsets.only(top: 30.0),
       child: Stack(
@@ -28,8 +28,8 @@ class CircularComponent extends StatelessWidget {
             children: [
               Center(
                 child: SizedBox(
-                  height: _adjustPosition(context),
-                  width: _adjustPosition(context),
+                  height: sizes,
+                  width: sizes,
                   child: CircularProgressIndicator(
                     value: 0,
                     strokeWidth: 4,
@@ -41,8 +41,8 @@ class CircularComponent extends StatelessWidget {
               ),
               Center(
                 child: SizedBox(
-                  height: _adjustPosition(context),
-                  width: _adjustPosition(context),
+                  height: sizes,
+                  width: sizes,
                   child: CircularProgressIndicator(
                     color: Colors.white, // AppColors.kProgressColor
                     value: viewModel.remainingTime == 0
@@ -100,18 +100,5 @@ class CircularComponent extends StatelessWidget {
     );
   }
 
-  double _adjustPosition(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-    bool isTablet = mediaQuery.size.width > kTabletWidth;
-    bool isPortrait = mediaQuery.orientation == Orientation.portrait;
-
-    if (isPortrait) {
-      return size;
-    }
-    if (isTablet) {
-      return size / 0.8;
-    }
-
-    return size / 0.5;
-  }
+  
 }

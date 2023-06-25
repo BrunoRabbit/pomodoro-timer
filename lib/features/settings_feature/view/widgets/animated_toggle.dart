@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pomodoro_timer/core/themes/font_sizes.dart';
+import 'package:pomodoro_timer/core/utils/enums/language.dart';
+import 'package:pomodoro_timer/core/utils/enums/notifications.dart';
 import 'package:pomodoro_timer/core/utils/extensions/language_helper.dart';
 import 'package:pomodoro_timer/core/utils/extensions/notifications_helper.dart';
-import 'package:pomodoro_timer/features/settings_feature/view/widgets/settings_items_widget.dart';
 import 'package:pomodoro_timer/core/themes/app_colors.dart';
 
 class AnimatedToggle extends StatefulWidget {
@@ -26,29 +28,33 @@ class AnimatedToggle extends StatefulWidget {
 
 class _AnimatedToggleState extends State<AnimatedToggle> {
   late double size;
+  late bool deviceOrientation;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    deviceOrientation =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     size = MediaQuery.of(context).size.width;
   }
 
   @override
   Widget build(BuildContext context) {
     final style = TextStyle(
-      fontSize: size * 0.045,
+      fontSize: FontSizes.large,
       color: widget.textColor,
       fontWeight: FontWeight.bold,
     );
+
     return SizedBox(
-      width: size * 0.45,
+      width: deviceOrientation ? size * 0.38 : size * 0.45,
       height: size * 0.13,
       child: Stack(
         children: <Widget>[
           GestureDetector(
             onTap: widget.onTap,
             child: Container(
-              width: size * 0.45,
+              width: deviceOrientation ? size * 0.38 : size * 0.45,
               height: size * 0.13,
               decoration: ShapeDecoration(
                 color: widget.backgroundColor,
@@ -57,7 +63,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
                 ),
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: List.generate(
                   widget.listOptions.length,
                   (index) {
@@ -66,28 +72,22 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
                     if (object is Language) {
                       final language = object.languageCode;
 
-                      return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: size * 0.05),
-                        child: Text(
-                          language,
-                          style: TextStyle(
-                            color: Colors.white.withOpacity(.6),
-                            fontSize: size * 0.045,
-                          ),
+                      return Text(
+                        language,
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(.6),
+                          fontSize: FontSizes.large,
                         ),
                       );
                     }
                     if (object is Notifications) {
                       final notification = object.notificationCode;
 
-                      return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: size * 0.07),
-                        child: Text(
-                          notification,
-                          style: TextStyle(
-                            color: Colors.white.withOpacity(.6),
-                            fontSize: size * 0.045,
-                          ),
+                      return Text(
+                        notification,
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(.6),
+                          fontSize: FontSizes.large,
                         ),
                       );
                     }
@@ -104,7 +104,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
                 ? Alignment.centerLeft
                 : Alignment.centerRight,
             child: Container(
-              width: size * 0.25,
+              width: deviceOrientation ? size * 0.20 : size * 0.25,
               decoration: ShapeDecoration(
                 color: AppColors.kScaffoldSecondary,
                 shape: RoundedRectangleBorder(

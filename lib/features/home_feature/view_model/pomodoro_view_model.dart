@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/core/debug/controllers/pomodoro_view_model_debug.dart';
+import 'package:pomodoro_timer/core/utils/responsive/dimensions.dart';
 import 'package:pomodoro_timer/features/notifications_feature/view_model/notifications_view_model.dart';
 import 'package:pomodoro_timer/features/language_feature/providers/observer.dart';
 import 'package:provider/provider.dart';
@@ -96,6 +97,24 @@ class PomodoroViewModel extends ChangeNotifier
   void update() {
     notifyListeners();
   }
+
+  // ! responsive section
+  double adjustPosition(BuildContext context) {
+    final size = MediaQuery.of(context).size.height / 3;
+    final mediaQuery = MediaQuery.of(context);
+    
+    bool isTablet = mediaQuery.size.width > kTabletWidth;
+    bool isPortrait = mediaQuery.orientation == Orientation.portrait;
+
+    if (isPortrait) {
+      return size;
+    }
+    if (isTablet) {
+      return size / 0.8;
+    }
+
+    return size / 0.5;
+  } // TODO - ADJUST SETTINGS SIZES
 
   // ! dev tools
   @override
