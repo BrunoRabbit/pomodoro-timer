@@ -114,7 +114,7 @@ class PomodoroViewModel extends ChangeNotifier
     }
 
     return size / 0.5;
-  } // TODO - ADJUST SETTINGS SIZES
+  } 
 
   // ! dev tools
   @override

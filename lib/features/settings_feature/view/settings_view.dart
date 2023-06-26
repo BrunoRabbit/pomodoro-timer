@@ -8,8 +8,8 @@ import 'package:pomodoro_timer/features/settings_feature/view_model/settings_vie
 import 'package:provider/provider.dart';
 
 @RoutePage()
-class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+class SettingsView extends StatelessWidget {
+  const SettingsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

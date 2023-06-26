@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:pomodoro_timer/core/routes/routes.gr.dart';
 import 'package:pomodoro_timer/core/themes/app_colors.dart';
 import 'package:pomodoro_timer/core/themes/font_sizes.dart';
 import 'package:pomodoro_timer/core/utils/extensions/translate_helper.dart';
@@ -9,18 +10,17 @@ import 'package:pomodoro_timer/features/home_feature/view/widgets/circular_compo
 import 'package:pomodoro_timer/shared/widgets/custom_button.dart';
 import 'package:pomodoro_timer/shared/widgets/gradient_scaffold.dart';
 import 'package:flutter/material.dart';
-import 'package:pomodoro_timer/core/routes/routes.gr.dart';
 import 'package:provider/provider.dart';
 
 @RoutePage()
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomeView extends StatefulWidget {
+  const HomeView({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeViewState extends State<HomeView> {
   late PomodoroViewModel viewModel;
 
   @override
@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(Icons.equalizer),
             onPressed: () {
-              context.router.push(const SettingsRoute());
+              // context.router.push(StatisticsRoute());
             },
           ),
         ],
@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class NarrowHomeScreen extends StatelessWidget {
+class NarrowHomeScreen extends StatefulWidget {
   const NarrowHomeScreen({
     super.key,
     required this.viewModel,
@@ -97,71 +97,79 @@ class NarrowHomeScreen extends StatelessWidget {
   final PomodoroViewModel viewModel;
 
   @override
+  State<NarrowHomeScreen> createState() => _NarrowHomeScreenState();
+}
+
+class _NarrowHomeScreenState extends State<NarrowHomeScreen> {
+  late double size;
+  late bool isLandscape;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    size = MediaQuery.of(context).size.height / 3;
+    isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return OrientationBuilder(
-      builder: (context, orientation) {
-        bool isLandscape = orientation == Orientation.landscape;
-        final size = MediaQuery.of(context).size.height / 3;
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: isLandscape ? size / 6 : size / 4,
+        ),
 
-        return Column(
-          children: <Widget>[
-            SizedBox(
-              height: isLandscape ? size / 6 : size / 4,
+        // ? Title
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Text(
+            widget.viewModel.isWorking
+                ? 'working_title'.pdfString(context)
+                : 'rest_title'.pdfString(context),
+            style: const TextStyle(
+              fontFamily: 'Raleway',
+              fontWeight: FontWeight.w600,
+              fontSize: FontSizes.large,
+              color: Colors.white,
             ),
+          ),
+        ),
+        CircularComponent(
+          viewModel: widget.viewModel,
+        ),
+        SizedBox(
+          height: size / 6,
+        ),
+        CustomButton(
+          title: !widget.viewModel.isTimerActive
+              ? 'start_timer'.pdfString(context)
+              : 'pause_timer'.pdfString(context),
+          onPressed: () {
+            if (!widget.viewModel.isTimerActive) {
+              widget.viewModel.startTimer(context);
+            } else {
+              widget.viewModel.pauseTimer();
+            }
+          },
+          isWorking: widget.viewModel.isWorking,
+        ),
+        SizedBox(
+          height: size / 16,
+        ),
+        CustomButton(
+          isWorking: widget.viewModel.isWorking,
+          title: 'restart_timer'.pdfString(context),
+          onPressed: () {
+            widget.viewModel.resetTimer();
+          },
+        ),
 
-            // ? Title
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: Text(
-                viewModel.isWorking
-                    ? 'working_title'.pdfString(context)
-                    : 'rest_title'.pdfString(context),
-                style: const TextStyle(
-                  fontFamily: 'Raleway',
-                  fontWeight: FontWeight.w600,
-                  fontSize: FontSizes.large,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            CircularComponent(
-              viewModel: viewModel,
-            ),
-            SizedBox(
-              height: size / 6,
-            ),
-            CustomButton(
-              title: !viewModel.isTimerActive
-                  ? 'start_timer'.pdfString(context)
-                  : 'pause_timer'.pdfString(context),
-              onPressed: () {
-                if (!viewModel.isTimerActive) {
-                  viewModel.startTimer(context);
-                } else {
-                  viewModel.pauseTimer();
-                }
-              },
-              isWorking: viewModel.isWorking,
-            ),
-            SizedBox(
-              height: size / 16,
-            ),
-            CustomButton(
-              isWorking: viewModel.isWorking,
-              title: 'restart_timer'.pdfString(context),
-              onPressed: () {
-                viewModel.resetTimer();
-              },
-            ),
-
-            isLandscape
-                ? SizedBox(
-                    height: size / 6,
-                  )
-                : Container(),
-          ],
-        );
-      },
+        isLandscape
+            ? SizedBox(
+                height: size / 6,
+              )
+            : Container(),
+      ],
     );
   }
 }
