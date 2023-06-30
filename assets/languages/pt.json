@@ -1,3 +1,4 @@
+    
 {
     "working_title": "MANTENHA O FOCO" ,
     "rest_title": "TENHA CALMA, DESCANSE",
@@ -5,12 +6,25 @@
     "start_timer": "INICIAR POMODORO",
     "pause_timer": "PAUSAR POMODORO",
     "restart_timer": "REINICIAR",
-    "settings_title": "Configurações",
-    "user_section_title": "SEÇÃO DO USUÁRIO",
-    "settings_item1": "Descanso",
-    "settings_item2": "Ciclos trabalho/descanso",
-    "settings_item3": "Permitir notificações",
-    "settings_item4": "Idioma",
     "notifications_title": "Limite do ciclo atingido pelo timer.",
-    "notifications_description": "Por favor, adicione novos valores ao Pomodoro ou reinicie-o para continuar a contagem"
+    "notifications_description": "Por favor, adicione novos valores ao Pomodoro ou reinicie-o para continuar a contagem",
+    "statistics_title": "Estatísticas",
+    "settings_title": "Configurações",
+    "settings_section": [
+        {
+            "section_title": "TIMERS",
+            "section_items": [ 
+                "Pomodoro", 
+                "Descanso", 
+                "Ciclos trabalho/descanso"
+            ]
+        },
+        {
+            "section_title": "SEÇÃO DO USUÁRIO",
+            "section_items": [ 
+                "Permitir notificações", 
+                "Idioma"
+            ]
+        }
+    ]
 }

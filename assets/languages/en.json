@@ -5,12 +5,25 @@
     "start_timer": "START POMODORO",
     "pause_timer": "PAUSE POMODORO",
     "restart_timer": "RESTART",
-    "settings_title": "Settings",
-    "user_section_title": "USER SECTION",
-    "settings_item1": "Rest",
-    "settings_item2": "Work/rest cycles",
-    "settings_item3": "Allow notifications",
-    "settings_item4": "Language",
     "notifications_title": "Cycle limit reached by timer.",
-    "notifications_description": "Please add new values ​​to Pomodoro or restart it to continue counting."
+    "notifications_description": "Please add new values ​​to Pomodoro or restart it to continue counting.",
+    "statistics_title": "Statistics",
+    "settings_title": "Settings",
+    "settings_section": [
+        {
+            "section_title": "TIMERS",
+            "section_items": [ 
+                "Pomodoro", 
+                "Rest", 
+                "Work/rest cycles"
+            ]
+        },
+        {
+            "section_title": "USER SECTION",
+             "section_items": [ 
+                "Allow notifications", 
+                "Language"
+            ]
+        }
+    ]
 }
