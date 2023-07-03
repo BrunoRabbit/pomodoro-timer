@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:pomodoro_timer/core/localization/multi_languages.dart';
-import 'package:pomodoro_timer/core/utils/extensions/translate_helper.dart';
 import 'package:pomodoro_timer/features/home_feature/view_model/pomodoro_view_model.dart';
 import 'package:pomodoro_timer/features/language_feature/providers/observer.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +37,7 @@ class SettingsViewModel extends ChangeNotifier implements Observer {
 
     final currentLocale = await multiLang.readLocalePrefs();
     Locale newLocale = const Locale.fromSubtags(languageCode: 'pt');
-
+    
     if (currentLocale == "pt") {
       newLocale = const Locale("en", "EN");
     }
@@ -82,7 +81,7 @@ class SettingsViewModel extends ChangeNotifier implements Observer {
       isTimerActive = false;
     }
 
-    int cycle = int.parse(text);
+    int cycle = int.parse(text); // TODO- FIX WHEN USER INPUT IS DOUBLE
 
     setUserCycleLimit = cycle;
     observable.notifyObservers();
@@ -129,13 +128,11 @@ class SettingsViewModel extends ChangeNotifier implements Observer {
   }
 
   // ? Settings Sections
-  List<SectionListModel> settingsSections(BuildContext context) {
+  List<SectionListModel> settingsSections() {
     return [
       SectionListModel(
-        title: 'TIMERS',
         items: [
           SettingsItemModel(
-            title: 'Pomodoro',
             subTitle: _parseMin(durationWork),
             openModalBottomSheet: (text) => _changeSettsMinutes(
               text.text,
@@ -143,7 +140,6 @@ class SettingsViewModel extends ChangeNotifier implements Observer {
             ),
           ),
           SettingsItemModel(
-            title: 'settings_item1'.pdfString(context),
             subTitle: _parseMin(durationRest),
             openModalBottomSheet: (text) => _changeSettsMinutes(
               text.text,
@@ -151,22 +147,18 @@ class SettingsViewModel extends ChangeNotifier implements Observer {
             ),
           ),
           SettingsItemModel(
-            title: 'settings_item2'.pdfString(context),
             subTitle: '$userCycleLimit ${_plural(userCycleLimit)}',
             openModalBottomSheet: (text) => _changePomodoroCycle(text.text),
           ),
         ],
       ),
       SectionListModel(
-        title: 'user_section_title'.pdfString(context),
         items: [
           SettingsItemModel(
-            title: 'settings_item3'.pdfString(context),
             subTitle: null,
             openModalBottomSheet: (_) {},
           ),
           SettingsItemModel(
-            title: 'settings_item4'.pdfString(context),
             subTitle: null,
             openModalBottomSheet: (_) {},
           ),
