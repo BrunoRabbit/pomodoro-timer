@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:pomodoro_timer/features/settings_feature/model/section_list_model.dart';
+import 'package:pomodoro_timer/core/localization/multi_languages.dart';
+import 'package:pomodoro_timer/features/language_feature/models/language_model.dart';
 import 'package:pomodoro_timer/features/settings_feature/view/widgets/settings_items_widget.dart';
-import 'package:provider/provider.dart';
 import 'package:pomodoro_timer/core/themes/app_colors.dart';
 import 'package:pomodoro_timer/core/themes/font_sizes.dart';
 import 'package:pomodoro_timer/features/settings_feature/view_model/settings_view_model.dart';
+import 'package:provider/provider.dart';
 
-class SettingsSection extends StatelessWidget {
+class SettingsSection extends StatefulWidget {
   const SettingsSection({
     Key? key,
     required this.index,
@@ -15,11 +16,22 @@ class SettingsSection extends StatelessWidget {
   final int index;
 
   @override
+  State<SettingsSection> createState() => _SettingsSectionState();
+}
+
+class _SettingsSectionState extends State<SettingsSection> {
+  late LanguageModel model;
+  late SettingsViewModel viewModel;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    viewModel = Provider.of<SettingsViewModel>(context);
+    model = MultiLanguagesImpl.of(context)!.instance();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    SettingsViewModel settings = Provider.of<SettingsViewModel>(context);
-
-    List<SectionListModel> sectionList = settings.settingsSections(context);
-
     return Padding(
       padding: const EdgeInsets.only(bottom: 15.0),
       child: Column(
@@ -33,7 +45,7 @@ class SettingsSection extends StatelessWidget {
               top: 22.0,
             ),
             child: Text(
-              sectionList[index].title,
+              model.settingsSection[widget.index].sectionTitle!,
               style: TextStyle(
                 color: Colors.white.withOpacity(.85),
                 fontSize: FontSizes.medium,
@@ -43,7 +55,9 @@ class SettingsSection extends StatelessWidget {
 
           // ? section item
           Container(
-            height: 55 * sectionList[index].items.length.toDouble(),
+            height: 55 *
+                model.settingsSection[widget.index].sectionItems!.length
+                    .toDouble(),
             decoration: BoxDecoration(
               color: AppColors.kCardBackground,
               border: Border.all(
@@ -52,7 +66,7 @@ class SettingsSection extends StatelessWidget {
               ),
             ),
             child: ListView.separated(
-              itemCount: sectionList[index].items.length,
+              itemCount: model.settingsSection[widget.index].sectionItems!.length,
               physics: const NeverScrollableScrollPhysics(),
               separatorBuilder: (context, _) {
                 return const Divider(
@@ -63,11 +77,13 @@ class SettingsSection extends StatelessWidget {
                 );
               },
               itemBuilder: (context, j) {
-                final item = sectionList[index].items[j];
+                final item = viewModel.settingsSections()[widget.index].items[j];
+                final title = model.settingsSection[widget.index].sectionItems![j];
 
                 return SettingsItemWidget(
                   setts: item,
                   index: j,
+                  title: title,
                 );
               },
             ),

@@ -15,9 +15,11 @@ class SettingsItemWidget extends StatefulWidget {
     super.key,
     required this.setts,
     required this.index,
+    required this.title,
   });
 
   final int index;
+  final String title;
   final SettingsItemModel setts;
 
   @override
@@ -84,7 +86,7 @@ class _SettingsItemWidgetState extends State<SettingsItemWidget> {
                           toggleValue:
                               notificationsViewModel.isNotificationAllowed,
                           onTap: () {
-                           notificationsViewModel.toggleNotifications();
+                            notificationsViewModel.toggleNotifications();
 
                             notificationsViewModel.saveUserNotificationPrefs();
                           },
@@ -121,7 +123,7 @@ class _SettingsItemWidgetState extends State<SettingsItemWidget> {
           leading: Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Text(
-              widget.setts.title,
+              widget.title,
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: FontSizes.large,
