@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/core/themes/app_colors.dart';
 import 'package:pomodoro_timer/core/themes/font_sizes.dart';
 import 'package:pomodoro_timer/core/utils/extensions/hour_helper.dart';
-import 'package:pomodoro_timer/core/utils/extensions/translate_helper.dart';
 import 'package:pomodoro_timer/features/home_feature/view_model/pomodoro_view_model.dart';
+import 'package:pomodoro_timer/features/language_feature/models/language_model.dart';
 import 'package:provider/provider.dart';
 
 class CircularComponent extends StatelessWidget {
   const CircularComponent({
     super.key,
     required this.viewModel,
+    required this.languageModel,
   });
 
+  final LanguageModel languageModel;
   final PomodoroViewModel viewModel;
 
   @override
@@ -72,7 +74,7 @@ class CircularComponent extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  "cycles".pdfString(context),
+                  languageModel.cycles,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: FontSizes.medium,
@@ -99,6 +101,4 @@ class CircularComponent extends StatelessWidget {
       ),
     );
   }
-
-  
 }

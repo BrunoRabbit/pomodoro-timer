@@ -2,7 +2,9 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/core/debug/controllers/pomodoro_view_model_debug.dart';
+import 'package:pomodoro_timer/core/localization/multi_languages.dart';
 import 'package:pomodoro_timer/core/utils/responsive/dimensions.dart';
+import 'package:pomodoro_timer/features/language_feature/models/language_model.dart';
 import 'package:pomodoro_timer/features/notifications_feature/view_model/notifications_view_model.dart';
 import 'package:pomodoro_timer/features/language_feature/providers/observer.dart';
 import 'package:provider/provider.dart';
@@ -68,9 +70,10 @@ class PomodoroViewModel extends ChangeNotifier
 
   void _isNotificationAvailable(BuildContext context) {
     final viewModel = context.read<NotificationsViewModel>();
+    LanguageModel model = MultiLanguagesImpl.of(context)!.instance();
 
     if (viewModel.isNotificationAllowed) {
-      viewModel.showNotification(context);
+      viewModel.showNotification(context, model);
     }
   }
 

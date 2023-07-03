@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pomodoro_timer/features/language_feature/models/language_model.dart';
 
 mixin JsonFileManager {
-  late Map<String, String> _localesMap;
+  late LanguageModel languageModel;
 
   Future<void> loadJson(Locale locale) async {
     String jsonString = await rootBundle.loadString(
@@ -12,12 +13,10 @@ mixin JsonFileManager {
 
     Map<String, dynamic> jsonMap = json.decode(jsonString);
 
-    _localesMap = jsonMap.map((key, value) {
-      return MapEntry(key, value.toString());
-    });
+    languageModel = LanguageModel.fromMap(jsonMap); 
   }
 
-  String translate(String key) {
-    return _localesMap[key]!;
+  LanguageModel instance() {
+    return languageModel;
   }
 }

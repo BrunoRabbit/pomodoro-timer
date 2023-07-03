@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:pomodoro_timer/core/utils/extensions/translate_helper.dart';
+import 'package:pomodoro_timer/features/language_feature/models/language_model.dart';
 import 'package:pomodoro_timer/features/language_feature/providers/observer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,7 +32,7 @@ class NotificationsViewModel extends ChangeNotifier implements Observer {
     await notificationsPlugin.initialize(initializationSettings);
   }
 
-  Future<void> showNotification(BuildContext context) async {
+  Future<void> showNotification(BuildContext context, LanguageModel model) async {
     const AndroidNotificationDetails androidChannelSpecifics =
         AndroidNotificationDetails(
       'channel_id',
@@ -49,8 +49,8 @@ class NotificationsViewModel extends ChangeNotifier implements Observer {
 
     await notificationsPlugin.show(
       0,
-      'notifications_title'.pdfString(context),
-      'notifications_description'.pdfString(context),
+      model.notificationsTitle,
+      model.notificationsDescription,
       platformChannelSpecifics,
     );
   }
