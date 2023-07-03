@@ -46,6 +46,8 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
       fontWeight: FontWeight.bold,
     );
 
+    final locale = Localizations.localeOf(context).toString();
+
     return SizedBox(
       width: deviceOrientation ? size * 0.38 : size * 0.45,
       height: size * 0.13,
@@ -80,18 +82,14 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
                         ),
                       );
                     }
-                    if (object is Notifications) {
-                      final notification = object.notificationCode;
 
-                      return Text(
-                        notification,
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(.6),
-                          fontSize: FontSizes.large,
-                        ),
-                      );
-                    }
-                    return Container();
+                    return Text(
+                      _formattedLocale(locale, (object as Notifications)),
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(.6),
+                        fontSize: FontSizes.large,
+                      ),
+                    );
                   },
                 ),
               ),
@@ -122,15 +120,11 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
                       style: style,
                     );
                   }
-                  if (widget.listOptions[0] is Notifications) {
-                    return Text(
-                      widget.toggleValue
-                          ? Notifications.values[0].notificationCode
-                          : Notifications.values[1].notificationCode,
-                      style: style,
-                    );
-                  }
-                  return Container();
+
+                  return Text(
+                    _formattedNotification(locale),
+                    style: style,
+                  );
                 },
               ),
             ),
@@ -138,5 +132,31 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
         ],
       ),
     );
+  }
+
+  String _formattedLocale(String locale, Notifications object) {
+    if (locale == 'pt') {
+      final notification = object.notificationCode;
+
+      return notification;
+    }
+
+    return object.name[0].toUpperCase() +
+        object.name.substring(1).toLowerCase();
+  }
+
+  String _formattedNotification(String locale) {
+    if (locale == 'pt') {
+      return widget.toggleValue
+          ? Notifications.values[0].notificationCode
+          : Notifications.values[1].notificationCode;
+    }
+
+    String yesOption = Notifications.values[0].name;
+    String noOption = Notifications.values[1].name;
+
+    return widget.toggleValue
+        ? yesOption[0].toUpperCase() + yesOption.substring(1).toLowerCase()
+        : noOption[0].toUpperCase() + noOption.substring(1).toLowerCase();
   }
 }
