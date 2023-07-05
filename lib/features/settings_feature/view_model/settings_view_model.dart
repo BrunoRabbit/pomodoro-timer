@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:pomodoro_timer/core/localization/multi_languages.dart';
 import 'package:pomodoro_timer/features/home_feature/view_model/pomodoro_view_model.dart';
+import 'package:pomodoro_timer/features/language_feature/models/language_model.dart';
 import 'package:pomodoro_timer/features/language_feature/providers/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/features/settings_feature/model/section_list_model.dart';
@@ -37,7 +38,7 @@ class SettingsViewModel extends ChangeNotifier implements Observer {
 
     final currentLocale = await multiLang.readLocalePrefs();
     Locale newLocale = const Locale.fromSubtags(languageCode: 'pt');
-    
+
     if (currentLocale == "pt") {
       newLocale = const Locale("en", "EN");
     }
@@ -81,7 +82,7 @@ class SettingsViewModel extends ChangeNotifier implements Observer {
       isTimerActive = false;
     }
 
-    int cycle = int.parse(text); // TODO- FIX WHEN USER INPUT IS DOUBLE
+    int cycle = int.parse(text);
 
     setUserCycleLimit = cycle;
     observable.notifyObservers();
@@ -116,8 +117,11 @@ class SettingsViewModel extends ChangeNotifier implements Observer {
   }
 
   // ? helpers
-  String _plural(int count) {
-    return count == 1 ? "ciclo" : "ciclos";
+  String _plural(int count, LanguageModel model) {
+    String cycle = model.cycles.last.toLowerCase();
+    String cycles = model.cycles.first.toLowerCase();
+
+    return count == 0 ? cycle : cycles;
   }
 
   String _parseMin(double min) {
@@ -128,7 +132,7 @@ class SettingsViewModel extends ChangeNotifier implements Observer {
   }
 
   // ? Settings Sections
-  List<SectionListModel> settingsSections() {
+  List<SectionListModel> settingsSections(LanguageModel model) {
     return [
       SectionListModel(
         items: [
@@ -147,7 +151,7 @@ class SettingsViewModel extends ChangeNotifier implements Observer {
             ),
           ),
           SettingsItemModel(
-            subTitle: '$userCycleLimit ${_plural(userCycleLimit)}',
+            subTitle: '$userCycleLimit ${_plural(userCycleLimit, model)}',
             openModalBottomSheet: (text) => _changePomodoroCycle(text.text),
           ),
         ],

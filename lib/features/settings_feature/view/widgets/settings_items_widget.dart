@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pomodoro_timer/core/localization/multi_languages.dart';
 import 'package:pomodoro_timer/core/themes/app_colors.dart';
 import 'package:pomodoro_timer/core/themes/font_sizes.dart';
 import 'package:pomodoro_timer/core/utils/enums/language.dart';
 import 'package:pomodoro_timer/core/utils/enums/notifications.dart';
+import 'package:pomodoro_timer/features/language_feature/models/language_model.dart';
 import 'package:pomodoro_timer/features/notifications_feature/view_model/notifications_view_model.dart';
 import 'package:pomodoro_timer/features/settings_feature/model/settings_item_model.dart';
 import 'package:pomodoro_timer/features/settings_feature/view_model/settings_view_model.dart';
@@ -31,6 +33,7 @@ class _SettingsItemWidgetState extends State<SettingsItemWidget> {
   TextEditingController controller = TextEditingController();
   late SettingsViewModel settingsViewModel;
   late NotificationsViewModel notificationsViewModel;
+  late LanguageModel model;
 
   @override
   void initState() {
@@ -44,6 +47,7 @@ class _SettingsItemWidgetState extends State<SettingsItemWidget> {
     super.didChangeDependencies();
     settingsViewModel = Provider.of<SettingsViewModel>(context);
     notificationsViewModel = Provider.of<NotificationsViewModel>(context);
+    model = MultiLanguagesImpl.of(context)!.instance();
   }
 
   @override
@@ -143,11 +147,13 @@ class _SettingsItemWidgetState extends State<SettingsItemWidget> {
       context: context,
       isScrollControlled: true,
       enableDrag: true,
-      builder: (BuildContext context) {
+      builder: (context) {
         return SettingsBottomSheet(
           onPress: onPress,
           controller: controller,
           formKey: formKey,
+          index: widget.index,
+          model: model,
         );
       },
     );

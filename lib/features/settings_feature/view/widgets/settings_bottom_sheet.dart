@@ -1,10 +1,9 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:pomodoro_timer/core/themes/app_colors.dart';
 import 'package:pomodoro_timer/core/themes/font_sizes.dart';
+import 'package:pomodoro_timer/features/language_feature/models/language_model.dart';
 import 'package:pomodoro_timer/shared/widgets/custom_button.dart';
 
 class SettingsBottomSheet extends StatelessWidget {
@@ -13,11 +12,18 @@ class SettingsBottomSheet extends StatelessWidget {
     required this.onPress,
     required this.controller,
     required this.formKey,
+    required this.index,
+    required this.model,
   }) : super(key: key);
 
   final Function(TextEditingController) onPress;
   final TextEditingController controller;
   final GlobalKey<FormState> formKey;
+  final int index;
+  final LanguageModel model;
+
+  static const int maxCharactersMin = 4;
+  static const int maxCharactersCycle = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +56,7 @@ class SettingsBottomSheet extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Digite o tempo em minutos',
+                  model.inputTitleMinutes,
                   style: TextStyle(
                     color: Colors.white.withOpacity(.85),
                     fontSize: FontSizes.medium,
@@ -63,15 +69,18 @@ class SettingsBottomSheet extends StatelessWidget {
                     keyboardType: TextInputType.number,
                     style: const TextStyle(color: Colors.white),
                     cursorColor: Colors.white,
-                    maxLength: 4,
+                    maxLength:
+                        index == 2 ? maxCharactersCycle : maxCharactersMin,
                     inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp(r'^[0-9.]+$')),
+                      FilteringTextInputFormatter.allow(RegExp(
+                        index != 2 ? r'^[0-9.]+$' : r'[0-9]',
+                      )),
                     ],
                     validator: (text) {
                       if (text!.isNotEmpty) {
                         return null;
                       }
-                      return 'Este campo nao pode ser vazio';
+                      return model.inputError;
                     },
                     decoration: InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -114,7 +123,7 @@ class SettingsBottomSheet extends StatelessWidget {
                         context.router.pop();
                       }
                     },
-                    title: 'Salvar',
+                    title: model.inputSaveButton,
                     isWorking: true,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),

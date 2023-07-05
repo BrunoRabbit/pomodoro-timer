@@ -77,7 +77,7 @@ class _SettingsSectionState extends State<SettingsSection> {
                 );
               },
               itemBuilder: (context, j) {
-                final item = viewModel.settingsSections()[widget.index].items[j];
+                final item = viewModel.settingsSections(model)[widget.index].items[j];
                 final title = model.settingsSection[widget.index].sectionItems![j];
 
                 return SettingsItemWidget(
