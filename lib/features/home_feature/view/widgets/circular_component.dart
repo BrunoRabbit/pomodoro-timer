@@ -74,7 +74,7 @@ class CircularComponent extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  languageModel.cycles,
+                  languageModel.cycles.first,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: FontSizes.medium,

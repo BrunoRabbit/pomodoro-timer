@@ -67,7 +67,7 @@ class _NarrowHomeScreenState extends State<NarrowHomeScreen> {
               : _languageModel.pauseTimer,
           onPressed: () {
             if (!widget.viewModel.isTimerActive) {
-              widget.viewModel.startTimer(context);
+              _handleTimerStart();
             } else {
               widget.viewModel.pauseTimer();
             }
@@ -92,5 +92,23 @@ class _NarrowHomeScreenState extends State<NarrowHomeScreen> {
             : Container(),
       ],
     );
+  }
+
+  void _handleTimerStart() {
+    int userCycleLimit = widget.viewModel.userCycleLimit;
+    int timerCycle = widget.viewModel.timerCycle;
+
+    if (userCycleLimit > 0 && timerCycle >= userCycleLimit) {
+      ScaffoldMessenger.of(context)
+        ..removeCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(
+            content: Text(_languageModel.snackBar),
+          ),
+        );
+      return;
+    }
+
+    widget.viewModel.startTimer(context);
   }
 }

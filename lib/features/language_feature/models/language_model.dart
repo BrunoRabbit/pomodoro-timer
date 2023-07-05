@@ -11,11 +11,15 @@ class LanguageModel {
     required this.notificationsDescription,
     required this.statisticsTitle,
     required this.settingsSection,
+    required this.inputTitleMinutes,
+    required this.inputSaveButton,
+    required this.inputError,
+    required this.snackBar,
   });
 
   String workingTitle;
   String restTitle;
-  String cycles;
+  List<String> cycles;
   String startTimer;
   String pauseTimer;
   String restartTimer;
@@ -23,13 +27,17 @@ class LanguageModel {
   String notificationsDescription;
   String statisticsTitle;
   String settingsTitle;
+  String inputTitleMinutes;
+  String inputSaveButton;
+  String inputError;
+  String snackBar;
   List<SettingsSectionModel> settingsSection;
 
   factory LanguageModel.fromMap(Map<String, dynamic> map) {
     return LanguageModel(
       workingTitle: map['working_title'],
       restTitle: map['rest_title'],
-      cycles: map['cycles'],
+      cycles: List<String>.from(map['cycles'] as List<dynamic>),
       startTimer: map['start_timer'],
       pauseTimer: map['pause_timer'],
       restartTimer: map['restart_timer'],
@@ -37,6 +45,10 @@ class LanguageModel {
       notificationsDescription: map['notifications_description'],
       statisticsTitle: map['statistics_title'],
       settingsTitle: map['settings_title'],
+      inputTitleMinutes: map['input_title_minutes'],
+      inputError: map['input_error'],
+      inputSaveButton: map['input_save_button'],
+      snackBar: map['snack_bar'],
       settingsSection: List<SettingsSectionModel>.from(
         map['settings_section'].map<SettingsSectionModel>(
           (x) => SettingsSectionModel.fromMap(x as Map<String, dynamic>),
