@@ -13,6 +13,8 @@
     "notifications_title": "Limite do ciclo atingido pelo timer.",
     "notifications_description": "Por favor, adicione novos valores ao Pomodoro ou reinicie-o para continuar a contagem",
     "statistics_title": "Estatísticas",
+    "bottom_sheet_button_cancel": "Cancelar",
+    "bottom_sheet_button_done": "Confirmar",
     "settings_title": "Configurações",
     "settings_section": [
         {
