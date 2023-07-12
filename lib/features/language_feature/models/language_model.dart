@@ -11,10 +11,13 @@ class LanguageModel {
     required this.notificationsDescription,
     required this.statisticsTitle,
     required this.settingsSection,
-    required this.inputTitleMinutes,
+    required this.bottomSheetButtonCancel,
+    required this.bottomSheetButtonDone,
     required this.inputSaveButton,
     required this.inputError,
     required this.snackBar,
+    required this.statisticsSectionTitleDay,
+    required this.statisticsAveragePomodoroDay,
   });
 
   String workingTitle;
@@ -27,10 +30,13 @@ class LanguageModel {
   String notificationsDescription;
   String statisticsTitle;
   String settingsTitle;
-  String inputTitleMinutes;
+  String bottomSheetButtonCancel;
+  String bottomSheetButtonDone;
   String inputSaveButton;
   String inputError;
   String snackBar;
+  String statisticsSectionTitleDay;
+  String statisticsAveragePomodoroDay;
   List<SettingsSectionModel> settingsSection;
 
   factory LanguageModel.fromMap(Map<String, dynamic> map) {
@@ -45,10 +51,13 @@ class LanguageModel {
       notificationsDescription: map['notifications_description'],
       statisticsTitle: map['statistics_title'],
       settingsTitle: map['settings_title'],
-      inputTitleMinutes: map['input_title_minutes'],
+      bottomSheetButtonCancel: map['bottom_sheet_button_cancel'],
+      bottomSheetButtonDone: map['bottom_sheet_button_done'],
       inputError: map['input_error'],
       inputSaveButton: map['input_save_button'],
       snackBar: map['snack_bar'],
+      statisticsSectionTitleDay: map['statistics_section_title_day'],
+      statisticsAveragePomodoroDay: map['statistics_average_pomodoro_day'],
       settingsSection: List<SettingsSectionModel>.from(
         map['settings_section'].map<SettingsSectionModel>(
           (x) => SettingsSectionModel.fromMap(x as Map<String, dynamic>),
