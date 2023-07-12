@@ -6,22 +6,12 @@ import 'package:pomodoro_timer/features/home_feature/view_model/pomodoro_view_mo
 import 'package:pomodoro_timer/features/language_feature/models/language_model.dart';
 import 'package:pomodoro_timer/shared/widgets/custom_button.dart';
 
-class NarrowHomeScreen extends StatefulWidget {
-  const NarrowHomeScreen({
-    super.key,
-    required this.viewModel,
-  });
-
-  final PomodoroViewModel viewModel;
-
-  @override
-  State<NarrowHomeScreen> createState() => _NarrowHomeScreenState();
-}
-
 class _NarrowHomeScreenState extends State<NarrowHomeScreen> {
   late double size;
   late bool isLandscape;
   late LanguageModel _languageModel;
+
+  bool get isWorking => widget.viewModel.isWorking;
 
   @override
   void didChangeDependencies() {
@@ -43,9 +33,7 @@ class _NarrowHomeScreenState extends State<NarrowHomeScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: Text(
-            widget.viewModel.isWorking
-                ? _languageModel.workingTitle
-                : _languageModel.restTitle,
+            isWorking ? _languageModel.workingTitle : _languageModel.restTitle,
             style: const TextStyle(
               fontFamily: 'Raleway',
               fontWeight: FontWeight.w600,
@@ -72,13 +60,13 @@ class _NarrowHomeScreenState extends State<NarrowHomeScreen> {
               widget.viewModel.pauseTimer();
             }
           },
-          isWorking: widget.viewModel.isWorking,
+          isWorking: isWorking,
         ),
         SizedBox(
           height: size / 16,
         ),
         CustomButton(
-          isWorking: widget.viewModel.isWorking,
+          isWorking: isWorking,
           title: _languageModel.restartTimer,
           onPressed: () {
             widget.viewModel.resetTimer();
@@ -111,4 +99,16 @@ class _NarrowHomeScreenState extends State<NarrowHomeScreen> {
 
     widget.viewModel.startTimer(context);
   }
+}
+
+class NarrowHomeScreen extends StatefulWidget {
+  const NarrowHomeScreen({
+    super.key,
+    required this.viewModel,
+  });
+
+  final PomodoroViewModel viewModel;
+
+  @override
+  State<NarrowHomeScreen> createState() => _NarrowHomeScreenState();
 }

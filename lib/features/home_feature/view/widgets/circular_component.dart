@@ -16,6 +16,12 @@ class CircularComponent extends StatelessWidget {
   final LanguageModel languageModel;
   final PomodoroViewModel viewModel;
 
+  double get remainingTime => viewModel.remainingTime;
+  double get currentDuration =>
+      viewModel.isWorking ? viewModel.durationWork : viewModel.durationRest;
+
+  double get valueCircularProgress => 1 - (remainingTime / (currentDuration));
+
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<PomodoroViewModel>(context);
@@ -25,7 +31,7 @@ class CircularComponent extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // ? Stack -> double circular progress (blue and red)
+          // ? Two Circular Progress
           Stack(
             children: [
               Center(
@@ -47,13 +53,7 @@ class CircularComponent extends StatelessWidget {
                   width: sizes,
                   child: CircularProgressIndicator(
                     color: Colors.white, // AppColors.kProgressColor
-                    value: viewModel.remainingTime == 0
-                        ? 1.0
-                        : 1 -
-                            (viewModel.remainingTime /
-                                (viewModel.isWorking
-                                    ? viewModel.durationWork
-                                    : viewModel.durationRest)),
+                    value: remainingTime == 0 ? 1.0 : valueCircularProgress,
                     strokeWidth: 8,
                   ),
                 ),
