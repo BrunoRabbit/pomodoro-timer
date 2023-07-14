@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +23,8 @@ class SettingsBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<SettingsViewModel>(context);
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
 
     return SingleChildScrollView(
       child: Column(
@@ -38,7 +41,8 @@ class SettingsBottomSheet extends StatelessWidget {
 
           // ? picker
           SizedBox(
-            height: MediaQuery.of(context).size.height / 2.5,
+            height:
+                MediaQuery.of(context).size.height / (isLandscape ? 1.65 : 3),
             child: CupertinoPicker(
               itemExtent: 32,
               looping: true,
@@ -95,11 +99,16 @@ class TitleWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                model.bottomSheetButtonCancel,
-                style: const TextStyle(
-                  color: Color(0xff1A9FF3),
-                  fontSize: FontSizes.large,
+              GestureDetector(
+                onTap: () {
+                  context.router.pop();
+                },
+                child: Text(
+                  model.bottomSheetButtonCancel,
+                  style: const TextStyle(
+                    color: Color(0xff1A9FF3),
+                    fontSize: FontSizes.large,
+                  ),
                 ),
               ),
               Expanded(

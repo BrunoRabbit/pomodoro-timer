@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/core/localization/multi_languages.dart';
 import 'package:pomodoro_timer/core/themes/app_colors.dart';
@@ -29,8 +30,6 @@ class SettingsItemWidget extends StatefulWidget {
 }
 
 class _SettingsItemWidgetState extends State<SettingsItemWidget> {
-  final formKey = GlobalKey<FormState>();
-  TextEditingController controller = TextEditingController();
   late SettingsViewModel settingsViewModel;
   late NotificationsViewModel notificationsViewModel;
   late LanguageModel model;
@@ -59,8 +58,7 @@ class _SettingsItemWidgetState extends State<SettingsItemWidget> {
           return;
         }
 
-        _showModalBottomSheet(
-            context, widget.setts.openModalBottomSheet, controller);
+        _showModalBottomSheet(context, widget.setts.openModalBottomSheet);
       },
       child: Container(
         height: 50,
@@ -139,21 +137,27 @@ class _SettingsItemWidgetState extends State<SettingsItemWidget> {
     );
   }
 
-  void _showModalBottomSheet(
-      BuildContext context,
-      Function(TextEditingController) onPress,
-      TextEditingController controller) {
-    showModalBottomSheet(
+  void _showModalBottomSheet(BuildContext context, Function(double) onPress) {
+    showCupertinoModalPopup(
       context: context,
-      isScrollControlled: true,
-      enableDrag: true,
       builder: (context) {
-        return SettingsBottomSheet(
-          onPress: onPress,
-          controller: controller,
-          formKey: formKey,
-          index: widget.index,
-          model: model,
+        return SafeArea(
+          top: false,
+          child: Material(
+            child: Container(
+              height: 320,
+              padding: const EdgeInsets.only(top: 6.0),
+              margin: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              child: SettingsBottomSheet(
+                onPress: onPress,
+                title: widget.title,
+                model: model,
+                index: widget.index,
+              ),
+            ),
+          ),
         );
       },
     );
