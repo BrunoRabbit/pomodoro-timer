@@ -24,8 +24,8 @@ class CircularComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<PomodoroViewModel>(context);
     final sizes = viewModel.adjustPosition(context);
+    
     return Padding(
       padding: const EdgeInsets.only(top: 30.0),
       child: Stack(

@@ -25,6 +25,7 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     context.read<NotificationsViewModel>().initNotification();
+    context.read<PomodoroViewModel>().initializeUserSection();
   }
 
   @override
