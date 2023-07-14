@@ -6,6 +6,7 @@ import 'package:pomodoro_timer/features/notifications_feature/view_model/notific
 import 'package:pomodoro_timer/features/settings_feature/view_model/settings_view_model.dart';
 import 'package:pomodoro_timer/core/localization/multi_languages.dart';
 import 'package:pomodoro_timer/features/home_feature/view_model/pomodoro_view_model.dart';
+import 'package:pomodoro_timer/features/statistics_feature/view_model/statistics_view_model.dart';
 import 'package:provider/provider.dart';
 
 void application() {
@@ -34,6 +35,11 @@ class _ApplicationState extends State<Application> {
         ),
         ChangeNotifierProvider<NotificationsViewModel>(
           create: (context) => NotificationsViewModel(),
+        ),
+        ChangeNotifierProvider<StatisticsViewModel>(
+          create: (context) => StatisticsViewModel(
+            Provider.of<PomodoroViewModel>(context, listen: false),
+          ),
         ),
       ],
       child: Builder(
