@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-
-typedef OpenModalBottomSheet = void Function(TextEditingController controller);
+typedef OpenModalBottomSheet = void Function(double text);
 
 class SettingsItemModel {
   SettingsItemModel({
