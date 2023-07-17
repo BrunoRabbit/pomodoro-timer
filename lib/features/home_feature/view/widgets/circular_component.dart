@@ -4,7 +4,6 @@ import 'package:pomodoro_timer/core/themes/font_sizes.dart';
 import 'package:pomodoro_timer/core/utils/extensions/hour_helper.dart';
 import 'package:pomodoro_timer/features/home_feature/view_model/pomodoro_view_model.dart';
 import 'package:pomodoro_timer/features/language_feature/models/language_model.dart';
-import 'package:provider/provider.dart';
 
 class CircularComponent extends StatelessWidget {
   const CircularComponent({

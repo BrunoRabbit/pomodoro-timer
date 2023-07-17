@@ -10,7 +10,7 @@ class AppColors {
   static const Color kProgressMissingGreen = Color(0xff419B63);
 
   static const Color kProgressMissing = Color(0xffFA656D);
-  static const Color kProgressColor = Color(0xffFC4F44);
+  static const Color kProgressColor = Color(0xffE06E77);
 
   static const Color kCardBackground = Color(0xffD4303D);
   static const Color kLinesColor = Color(0xffBE2934);
