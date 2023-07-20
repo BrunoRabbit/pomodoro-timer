@@ -1,8 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:pomodoro_timer/core/debug/controllers/language_view_model_debug.dart';
 import 'package:pomodoro_timer/core/localization/multi_languages.dart';
 import 'package:pomodoro_timer/features/language_feature/providers/observer.dart';
 
-class LanguageViewModel extends ChangeNotifier implements Observer {
+class LanguageViewModel extends ChangeNotifier
+    with DiagnosticableTreeMixin
+    implements Observer {
   LanguageViewModel() {
     observable = Observable();
     observable.addObserver(this);
@@ -46,5 +50,13 @@ class LanguageViewModel extends ChangeNotifier implements Observer {
   @override
   void update() {
     notifyListeners();
+  }
+
+  // ! dev tools
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+
+    LanguageViewModelDebug().debug(properties);
   }
 }

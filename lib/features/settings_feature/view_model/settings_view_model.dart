@@ -33,6 +33,18 @@ class SettingsViewModel extends ChangeNotifier implements Observer {
   set remainingTime(double time) => _viewModel.remainingTime = time;
 
   // ? Settings
+  int itemSelected = 0;
+
+  void updateItemSelected(int i) {
+    itemSelected = (i + 1) * 5;
+    observable.notifyObservers();
+  }
+
+  void updateCycle(int i) {
+    itemSelected = i;
+    observable.notifyObservers();
+  }
+
   Future<void> changeLocale(BuildContext context, bool mounted) async {
     final multiLang = MultiLanguagesImpl();
 
@@ -76,25 +88,25 @@ class SettingsViewModel extends ChangeNotifier implements Observer {
     observable.notifyObservers();
   }
 
-  void _changePomodoroCycle(String text) {
+  void _changePomodoroCycle(int index) {
     if (timer != null) {
       timer!.cancel();
       isTimerActive = false;
     }
 
-    int cycle = int.parse(text);
+    int cycle = index;
 
     setUserCycleLimit = cycle;
     observable.notifyObservers();
   }
 
-  void _changeSettsMinutes(String text, bool isUserWorking) {
+  void _changeSettsMinutes(double text, bool isUserWorking) {
     if (timer != null) {
       timer!.cancel();
       isTimerActive = false;
     }
 
-    double duration = double.parse(text);
+    double duration = text;
     duration *= 60;
 
     if (isUserWorking) {
@@ -110,10 +122,10 @@ class SettingsViewModel extends ChangeNotifier implements Observer {
 
   double _userDuration() {
     if (!isWorking) {
-      return remainingTime = durationRest;
+      return durationRest;
     }
 
-    return remainingTime = durationWork;
+    return durationWork;
   }
 
   // ? helpers
@@ -126,9 +138,9 @@ class SettingsViewModel extends ChangeNotifier implements Observer {
 
   String _parseMin(double min) {
     if (min < 10) {
-      return (min / 10).toString();
+      return (min ~/ 10).toString();
     }
-    return (min / 60).toString();
+    return (min ~/ 60).toString();
   }
 
   // ? Settings Sections
@@ -139,20 +151,20 @@ class SettingsViewModel extends ChangeNotifier implements Observer {
           SettingsItemModel(
             subTitle: _parseMin(durationWork),
             openModalBottomSheet: (text) => _changeSettsMinutes(
-              text.text,
+              text,
               _isUserWorking,
             ),
           ),
           SettingsItemModel(
             subTitle: _parseMin(durationRest),
             openModalBottomSheet: (text) => _changeSettsMinutes(
-              text.text,
+              text,
               !_isUserWorking,
             ),
           ),
           SettingsItemModel(
             subTitle: '$userCycleLimit ${_plural(userCycleLimit, model)}',
-            openModalBottomSheet: (text) => _changePomodoroCycle(text.text),
+            openModalBottomSheet: (text) => _changePomodoroCycle(text.toInt()),
           ),
         ],
       ),
