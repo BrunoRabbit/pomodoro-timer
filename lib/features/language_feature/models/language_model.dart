@@ -16,6 +16,7 @@ class LanguageModel {
     required this.inputSaveButton,
     required this.inputError,
     required this.snackBar,
+    required this.statisticsFocusSessions,
     required this.statisticsSectionTitleDay,
     required this.statisticsAveragePomodoroDay,
   });
@@ -37,6 +38,7 @@ class LanguageModel {
   String snackBar;
   String statisticsSectionTitleDay;
   String statisticsAveragePomodoroDay;
+  String statisticsFocusSessions;
   List<SettingsSectionModel> settingsSection;
 
   factory LanguageModel.fromMap(Map<String, dynamic> map) {
@@ -58,6 +60,7 @@ class LanguageModel {
       snackBar: map['snack_bar'],
       statisticsSectionTitleDay: map['statistics_section_title_day'],
       statisticsAveragePomodoroDay: map['statistics_average_pomodoro_day'],
+      statisticsFocusSessions: map['statistics_focus_sessions'],
       settingsSection: List<SettingsSectionModel>.from(
         map['settings_section'].map<SettingsSectionModel>(
           (x) => SettingsSectionModel.fromMap(x as Map<String, dynamic>),
