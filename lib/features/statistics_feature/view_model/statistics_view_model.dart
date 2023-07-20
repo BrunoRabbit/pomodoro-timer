@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:pomodoro_timer/core/debug/controllers/statistics_view_model_debug.dart';
 import 'package:pomodoro_timer/core/utils/keys/shared_preferences_keys.dart';
 import 'package:pomodoro_timer/features/home_feature/view_model/pomodoro_view_model.dart';
 import 'package:pomodoro_timer/features/language_feature/models/language_model.dart';
@@ -8,7 +9,7 @@ import 'package:pomodoro_timer/features/statistics_feature/view_model/date_view_
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StatisticsViewModel extends DateViewModel
-    with ChangeNotifier
+    with ChangeNotifier, DiagnosticableTreeMixin
     implements Observer {
   final PomodoroViewModel viewModel;
 
@@ -156,5 +157,13 @@ class StatisticsViewModel extends DateViewModel
   @override
   void update() {
     notifyListeners();
+  }
+
+  // ! dev tools
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+
+    StatisticsViewModelDebug(viewModel).debug(properties);
   }
 }

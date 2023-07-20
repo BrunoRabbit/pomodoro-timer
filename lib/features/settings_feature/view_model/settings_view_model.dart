@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
+import 'package:pomodoro_timer/core/debug/controllers/settings_view_model_debug.dart';
 import 'package:pomodoro_timer/core/localization/multi_languages.dart';
 import 'package:pomodoro_timer/features/home_feature/view_model/pomodoro_view_model.dart';
 import 'package:pomodoro_timer/features/language_feature/models/language_model.dart';
@@ -8,7 +10,9 @@ import 'package:pomodoro_timer/features/settings_feature/model/section_list_mode
 import 'package:pomodoro_timer/features/settings_feature/model/settings_item_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SettingsViewModel extends ChangeNotifier implements Observer {
+class SettingsViewModel extends ChangeNotifier
+    with DiagnosticableTreeMixin
+    implements Observer {
   final PomodoroViewModel _viewModel;
 
   SettingsViewModel(this._viewModel) {
@@ -186,5 +190,13 @@ class SettingsViewModel extends ChangeNotifier implements Observer {
   @override
   void update() {
     notifyListeners();
+  }
+
+  // ! dev tools
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+
+    SettingsViewModelDebug(_viewModel).debug(properties);
   }
 }
