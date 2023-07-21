@@ -8,11 +8,13 @@ import 'package:pomodoro_timer/core/localization/multi_languages.dart';
 import 'package:pomodoro_timer/features/home_feature/view_model/pomodoro_view_model.dart';
 import 'package:pomodoro_timer/features/statistics_feature/view_model/statistics_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void application() {
+void application() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
 
-  runApp(const Application());
+  runApp(Application(prefs));
 }
 
 class _ApplicationState extends State<Application> {
@@ -42,11 +44,8 @@ class _ApplicationState extends State<Application> {
           ),
         ),
       ],
-      child: Builder(
-        builder: (context) {
-          LanguageViewModel languageViewModel =
-              Provider.of<LanguageViewModel>(context);
-
+      child: Consumer<LanguageViewModel>(
+        builder: (context, value, child) {
           return MaterialApp.router(
             routerConfig: _appRouter.config(),
             debugShowCheckedModeBanner: false,
@@ -60,10 +59,9 @@ class _ApplicationState extends State<Application> {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            locale: languageViewModel.locale,
+            locale: Locale(widget.prefs.getString('localeKey') ?? 'pt'),
             localeResolutionCallback: (locale, supported) {
-              return languageViewModel.localeResolutionCallback(
-                  locale, supported);
+              return value.localeResolutionCallback(locale, supported);
             },
           );
         },
@@ -73,7 +71,9 @@ class _ApplicationState extends State<Application> {
 }
 
 class Application extends StatefulWidget {
-  const Application({super.key});
+  const Application(this.prefs, {super.key});
+
+  final SharedPreferences prefs;
 
   @override
   State<Application> createState() => _ApplicationState();
