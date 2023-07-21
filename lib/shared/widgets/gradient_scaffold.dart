@@ -19,14 +19,14 @@ class GradientScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: bgColor ?? AppColors.kScaffoldSecondary,
+        backgroundColor: bgColor ?? AppColors.scaffoldColorSecondary,
         body: Container(
           decoration: BoxDecoration(
             gradient: gradient ??
                 const LinearGradient(
                   colors: [
-                    AppColors.kScaffoldPrimary,
-                    AppColors.kScaffoldSecondary,
+                    AppColors.scaffoldColorPrimary,
+                    AppColors.scaffoldColorSecondary,
                   ],
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,

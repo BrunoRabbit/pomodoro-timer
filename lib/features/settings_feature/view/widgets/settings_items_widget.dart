@@ -63,7 +63,7 @@ class _SettingsItemWidgetState extends State<SettingsItemWidget> {
       child: Container(
         height: 50,
         width: double.infinity,
-        color: AppColors.kCardBackground,
+        color: AppColors.cardRedBackground,
         child: ListTile(
           contentPadding: const EdgeInsets.only(left: 20),
           trailing: Padding(

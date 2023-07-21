@@ -32,8 +32,8 @@ class CustomButton extends StatelessWidget {
           fontWeight: FontWeight.w600,
           fontSize: FontSizes.large,
           color: isWorking
-              ? AppColors.kScaffoldPrimary
-              : AppColors.kScaffoldGreenPrimary,
+              ? AppColors.scaffoldColorPrimary
+              : AppColors.scaffoldGreenPrimary,
         ),
       ),
     );

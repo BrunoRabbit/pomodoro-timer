@@ -1,1 +1,1 @@
-const kTabletWidth = 800;
+const tabletWidth = 800;

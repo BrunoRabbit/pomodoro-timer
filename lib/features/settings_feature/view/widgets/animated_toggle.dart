@@ -104,7 +104,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
             child: Container(
               width: deviceOrientation ? size * 0.20 : size * 0.25,
               decoration: ShapeDecoration(
-                color: AppColors.kScaffoldSecondary,
+                color: AppColors.scaffoldColorSecondary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(size * 0.1),
                 ),

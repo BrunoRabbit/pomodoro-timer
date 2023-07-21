@@ -59,9 +59,9 @@ class _SettingsSectionState extends State<SettingsSection> {
                 model.settingsSection[widget.index].sectionItems!.length
                     .toDouble(),
             decoration: BoxDecoration(
-              color: AppColors.kCardBackground,
+              color: AppColors.cardRedBackground,
               border: Border.all(
-                color: AppColors.kLinesColor,
+                color: AppColors.linesCardBorderColor,
                 width: 2,
               ),
             ),
@@ -71,7 +71,7 @@ class _SettingsSectionState extends State<SettingsSection> {
               separatorBuilder: (context, _) {
                 return const Divider(
                   height: 6,
-                  color: AppColors.kLinesColor,
+                  color: AppColors.linesCardBorderColor,
                   thickness: 2,
                   indent: 20,
                 );

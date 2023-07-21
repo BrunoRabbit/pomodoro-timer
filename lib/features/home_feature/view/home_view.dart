@@ -45,12 +45,12 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return GradientScaffold(
-      bgColor: !viewModel.isWorking ? AppColors.kScaffoldGreenSecondary : null,
+      bgColor: !viewModel.isWorking ? AppColors.scaffoldGreenSecondary : null,
       gradient: !viewModel.isWorking
           ? const LinearGradient(
               colors: [
-                AppColors.kScaffoldGreenPrimary,
-                AppColors.kScaffoldGreenSecondary,
+                AppColors.scaffoldGreenPrimary,
+                AppColors.scaffoldGreenSecondary,
               ],
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,

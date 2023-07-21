@@ -87,9 +87,9 @@ class WeekChart extends StatelessWidget {
       height: chartHeight,
       margin: const EdgeInsets.only(top: 8),
       decoration: BoxDecoration(
-        color: AppColors.kCardBackground,
+        color: AppColors.cardRedBackground,
         border: Border.all(
-          color: AppColors.kLinesColor,
+          color: AppColors.linesCardBorderColor,
           width: 2,
         ),
       ),
@@ -140,7 +140,7 @@ class WeekChart extends StatelessWidget {
                             const Expanded(
                               flex: 16,
                               child: Divider(
-                                color: AppColors.kLinesColor,
+                                color: AppColors.linesCardBorderColor,
                                 thickness: 2,
                               ),
                             ),
@@ -228,7 +228,7 @@ class BarChart extends StatelessWidget {
               triggerMode: TooltipTriggerMode.tap,
               textStyle: const TextStyle(
                   fontWeight: FontWeight.w600,
-                  color: AppColors.kScaffoldPrimary,
+                  color: AppColors.scaffoldColorPrimary,
                   fontSize: 15),
               verticalOffset: verticalOffset,
               padding: const EdgeInsets.symmetric(
@@ -246,7 +246,7 @@ class BarChart extends StatelessWidget {
                     width: 13,
                     height: chartBarHeight,
                     decoration: BoxDecoration(
-                      color: AppColors.kProgressColor,
+                      color: AppColors.progressColor,
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),

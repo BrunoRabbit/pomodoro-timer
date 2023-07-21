@@ -22,7 +22,7 @@ class _DayWidgetState extends State<DayWidget> {
 
   final Divider divider = const Divider(
     height: 6,
-    color: AppColors.kLinesColor,
+    color: AppColors.linesCardBorderColor,
     thickness: 2,
     indent: 20,
   );
@@ -62,9 +62,9 @@ class _DayWidgetState extends State<DayWidget> {
             height: heightPerItem,
             margin: const EdgeInsets.only(top: 8),
             decoration: BoxDecoration(
-              color: AppColors.kCardBackground,
+              color: AppColors.cardRedBackground,
               border: Border.all(
-                color: AppColors.kLinesColor,
+                color: AppColors.linesCardBorderColor,
                 width: 2,
               ),
             ),
@@ -81,7 +81,7 @@ class _DayWidgetState extends State<DayWidget> {
                 return Container(
                   height: 50,
                   width: double.infinity,
-                  color: AppColors.kCardBackground,
+                  color: AppColors.cardRedBackground,
                   child: ListTile(
                     contentPadding: const EdgeInsets.only(left: 20),
                     trailing: Padding(

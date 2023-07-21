@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/core/debug/controllers/pomodoro_view_model_debug.dart';
@@ -180,7 +181,7 @@ class PomodoroViewModel extends ChangeNotifier
     final size = MediaQuery.of(context).size.height / 3;
     final mediaQuery = MediaQuery.of(context);
 
-    bool isTablet = mediaQuery.size.width > kTabletWidth;
+    bool isTablet = mediaQuery.size.width > tabletWidth;
     bool isPortrait = mediaQuery.orientation == Orientation.portrait;
 
     if (isPortrait) {

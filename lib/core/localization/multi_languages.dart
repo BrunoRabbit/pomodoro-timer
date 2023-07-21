@@ -39,11 +39,10 @@ class MultiLanguagesImpl with JsonFileManager implements MultiLanguages {
   }
 
   @override
-  void setLocale(BuildContext context, Locale locale) async {
+  void setLocale(BuildContext context, Locale locale) {
     storeLocalePrefs(locale.languageCode);
 
-    Provider.of<LanguageViewModel>(context, listen: false)
-        .setNewLocale(locale);
+    Provider.of<LanguageViewModel>(context, listen: false).setNewLocale(locale);
   }
 
   static const LocalizationsDelegate<MultiLanguages> delegate =

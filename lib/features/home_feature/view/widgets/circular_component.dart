@@ -41,8 +41,8 @@ class CircularComponent extends StatelessWidget {
                     value: 0,
                     strokeWidth: 4,
                     backgroundColor: viewModel.isWorking
-                        ? AppColors.kProgressMissing
-                        : AppColors.kProgressMissingGreen,
+                        ? AppColors.progressColorMissing
+                        : AppColors.progressMissingGreen,
                   ),
                 ),
               ),
@@ -51,7 +51,7 @@ class CircularComponent extends StatelessWidget {
                   height: sizes,
                   width: sizes,
                   child: CircularProgressIndicator(
-                    color: Colors.white, // AppColors.kProgressColor
+                    color: Colors.white, // AppColors.progressColor
                     value: remainingTime == 0 ? 1.0 : valueCircularProgress,
                     strokeWidth: 8,
                   ),
