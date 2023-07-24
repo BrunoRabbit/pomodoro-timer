@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:pomodoro_timer/core/debug/controllers/statistics_view_model_debug.dart';
+import 'package:pomodoro_timer/core/utils/extensions/hour_helper.dart';
 import 'package:pomodoro_timer/core/utils/keys/shared_preferences_keys.dart';
 import 'package:pomodoro_timer/features/home_feature/view_model/pomodoro_view_model.dart';
 import 'package:pomodoro_timer/features/language_feature/models/language_model.dart';
@@ -21,9 +22,9 @@ class StatisticsViewModel extends DateViewModel
   late Observable observable;
 
   int pomodoro = 0;
-  int hours = 0;
-  int minutes = 0;
   int userSection = 0;
+  String totalMinutes = "";
+
   List<String> finishedSection = [];
 
   String _getData = "";
@@ -114,14 +115,12 @@ class StatisticsViewModel extends DateViewModel
   }
 
   void _calculateTotalMinutes(List<String> storeRemainingTime) {
-    double totalMinutes = storeRemainingTime.fold<double>(
+    double seconds = storeRemainingTime.fold<double>(
       0,
       (p, r) => double.parse(r) + p,
     );
 
-    pomodoro = storeRemainingTime.length ~/ 2;
-    hours = (totalMinutes ~/ 60).toInt();
-    minutes = (totalMinutes % 60).toInt();
+    totalMinutes = seconds.secToHourMin();
   }
 
   _verifySameSection(List<String> storeRemainingTime) async {
@@ -145,8 +144,7 @@ class StatisticsViewModel extends DateViewModel
     SharedPreferences prefs,
   ) {
     pomodoro = 0;
-    hours = 0;
-    minutes = 0;
+    totalMinutes = "";
     userSection = 0;
     storeRemainingTime.clear();
     prefs.remove(userSectionKey);

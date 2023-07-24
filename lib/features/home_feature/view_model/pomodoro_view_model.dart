@@ -21,18 +21,14 @@ class PomodoroViewModel extends ChangeNotifier
     observable.addObserver(this);
   }
 
-  PomodoroViewModel.removeObserver() {
-    observable.removeObserver(this);
-  }
-
   // ? Settings variables
   int timerCycle = 0;
   int userCycleLimit = 0;
-  double durationRest = 0.1 * 60; // 5
-  double durationWork = 0.1 * 60; // 25
+  double durationRest = 5 * 60; // 5
+  double durationWork = 25 * 60; // 25
 
   // ? Pomodoro variables
-  double remainingTime = 0.1 * 60; // 25
+  double remainingTime = 25 * 60; // 25
   bool isTimerActive = false;
   Timer? timer;
   bool isWorking = true;
@@ -169,6 +165,12 @@ class PomodoroViewModel extends ChangeNotifier
     if (viewModel.isNotificationAllowed) {
       viewModel.showNotification(context, model);
     }
+  }
+
+  @override
+  void dispose() {
+    observable.removeObserver(this);
+    super.dispose();
   }
 
   @override

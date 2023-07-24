@@ -36,13 +36,6 @@ class _HomeViewState extends State<HomeView> {
   }
 
   @override
-  void dispose() {
-    viewModel = PomodoroViewModel.removeObserver();
-    viewModel.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return GradientScaffold(
       bgColor: !viewModel.isWorking ? AppColors.scaffoldGreenSecondary : null,

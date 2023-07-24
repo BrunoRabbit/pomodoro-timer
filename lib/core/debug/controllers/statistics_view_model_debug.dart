@@ -6,8 +6,7 @@ class StatisticsViewModelDebug extends StatisticsViewModel {
 
   void debug(DiagnosticPropertiesBuilder properties) {
     properties.add(IntProperty('pomodoro', pomodoro));
-    properties.add(IntProperty('hours', hours));
-    properties.add(IntProperty('minutes', minutes));
+    properties.add(StringProperty('hour and minute', totalMinutes));
     properties.add(IntProperty('userSection', userSection));
   }
 }

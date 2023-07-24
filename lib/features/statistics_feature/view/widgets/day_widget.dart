@@ -18,7 +18,7 @@ class _DayWidgetState extends State<DayWidget> {
 
   String get sectionTitle => langModel.settingsSection.first.sectionTitle!;
   String get averagePomodoro =>
-      '${langModel.statisticsAveragePomodoroDay} ${viewModel.pomodoro} pomodoro\n(${viewModel.hours} hrs ${viewModel.minutes} min)';
+      '${langModel.statisticsAveragePomodoroDay} ${viewModel.pomodoro} pomodoro\n(${viewModel.totalMinutes})';
 
   final Divider divider = const Divider(
     height: 6,

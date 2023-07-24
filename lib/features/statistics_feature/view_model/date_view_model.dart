@@ -6,16 +6,6 @@ class DateViewModel {
   List<String> listDate = [];
   List<int> listMonth = [];
 
-  // ? Day
-  String months(String? locale) {
-    DateTime now = DateTime.now();
-    final dateFormat = DateFormat("MMMM", locale);
-
-    String month = dateFormat.format(now);
-
-    return '$month ${now.year}'.toUpperCase();
-  }
-
   // ? Week
   String weekOfTheMonth(String? locale) {
     DateTime now = DateTime.now();
@@ -110,6 +100,7 @@ class DateViewModel {
 
     return textColor;
   }
+
   int retrieveMonthsSection(int index, List<String> finishedSection) {
     List<String> finishedDates =
         finishedSection.map((section) => section.split(' ')[1]).toList();
@@ -126,6 +117,15 @@ class DateViewModel {
     }
 
     return totalUserSection;
+  }
+
+  String months(String? locale) {
+    DateTime now = DateTime.now();
+    final dateFormat = DateFormat("MMMM", locale);
+
+    String month = dateFormat.format(now);
+
+    return '$month ${now.year}'.toUpperCase();
   }
 
   // ? Helper Methods
