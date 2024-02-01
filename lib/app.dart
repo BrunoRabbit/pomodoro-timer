@@ -49,6 +49,14 @@ class _ApplicationState extends State<Application> {
           return MaterialApp.router(
             routerConfig: _appRouter.config(),
             debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              iconButtonTheme: IconButtonThemeData(
+                style: IconButton.styleFrom(
+                  foregroundColor: Colors.white,
+                ),
+              ),
+              iconTheme: IconThemeData(color: Colors.white),
+            ),
             supportedLocales: const [
               Locale('en', 'US'),
               Locale.fromSubtags(languageCode: 'pt'),

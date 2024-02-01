@@ -39,6 +39,7 @@ class _SettingsViewState extends State<SettingsView> {
           style: const TextStyle(
             fontFamily: 'Raleway',
             fontWeight: FontWeight.w600,
+            color: Colors.white,
           ),
         ),
         leading: IconButton(

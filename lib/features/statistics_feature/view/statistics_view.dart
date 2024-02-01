@@ -57,6 +57,7 @@ class _StatisticsViewState extends State<StatisticsView> {
           style: const TextStyle(
             fontFamily: 'Raleway',
             fontWeight: FontWeight.w600,
+            color: Colors.white,
           ),
         ),
         leading: IconButton(
