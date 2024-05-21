@@ -180,7 +180,7 @@ class PomodoroViewModel extends ChangeNotifier
 
   // ! responsive section
   double adjustPosition(BuildContext context) {
-    final size = MediaQuery.of(context).size.height / 3;
+    final size = MediaQuery.sizeOf(context).height / 3;
     final mediaQuery = MediaQuery.of(context);
 
     bool isTablet = mediaQuery.size.width > tabletWidth;

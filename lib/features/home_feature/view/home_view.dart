@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:pomodoro_timer/core/routes/routes.gr.dart';
 import 'package:pomodoro_timer/core/themes/app_colors.dart';
-import 'package:pomodoro_timer/features/home_feature/layouts/narrow_home_screen.dart';
 import 'package:pomodoro_timer/features/home_feature/layouts/wide_home_screen.dart';
 import 'package:pomodoro_timer/features/language_feature/view_model/language_view_model.dart';
 import 'package:pomodoro_timer/features/notifications_feature/view_model/notifications_view_model.dart';
@@ -69,11 +68,7 @@ class _HomeViewState extends State<HomeView> {
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
-          if (constraints.maxWidth > 600) {
-            return WideHomeScreen(viewModel: viewModel);
-          } else {
-            return NarrowHomeScreen(viewModel: viewModel);
-          }
+          return WideHomeScreen(viewModel: viewModel);
         },
       ),
     );

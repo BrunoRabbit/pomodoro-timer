@@ -69,7 +69,7 @@ class CircularComponent extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: 40,
+            bottom:20,
             child: Column(
               children: [
                 Text(

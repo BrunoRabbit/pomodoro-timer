@@ -18,7 +18,12 @@ In addition, it records session history and presents statistics such as complete
 
 ## ⚙️ Project overview
 
-### video
+### Screenshots
+
+![alt text](image.png)
+![alt text](image-1.png)
+
+ - Also have **landscape**
 
 ## 🔧 Features
 

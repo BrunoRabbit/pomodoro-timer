@@ -17,6 +17,15 @@ void application() async {
   runApp(Application(prefs));
 }
 
+class Application extends StatefulWidget {
+  const Application(this.prefs, {super.key});
+
+  final SharedPreferences? prefs;
+
+  @override
+  State<Application> createState() => _ApplicationState();
+}
+
 class _ApplicationState extends State<Application> {
   final _appRouter = Routes();
 
@@ -67,7 +76,7 @@ class _ApplicationState extends State<Application> {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            locale: Locale(widget.prefs.getString('localeKey') ?? 'pt'),
+            locale: Locale(widget.prefs!.getString('localeKey') ?? 'pt'),
             localeResolutionCallback: (locale, supported) {
               return value.localeResolutionCallback(locale, supported);
             },
@@ -76,13 +85,4 @@ class _ApplicationState extends State<Application> {
       ),
     );
   }
-}
-
-class Application extends StatefulWidget {
-  const Application(this.prefs, {super.key});
-
-  final SharedPreferences prefs;
-
-  @override
-  State<Application> createState() => _ApplicationState();
 }
